@@ -1,0 +1,26 @@
+{
+  "name": "dating-app",
+  "version": "1.0.0",
+  "description": "a dating application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Lien Vo",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "clean-css": "^4.2.1",
+    "lodash": "^4.17.11",
+    "nodemon": "^1.18.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nlvo/dating-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nlvo/dating-app/issues"
+  },
+  "homepage": "https://github.com/nlvo/dating-app#readme"
+}

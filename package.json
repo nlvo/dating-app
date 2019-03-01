@@ -5,20 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "author": "Lien Vo",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "case": "^1.6.1",
+    "imagemin": "^6.1.0",
+    "validator": "^10.11.0"
+  },
   "devDependencies": {
     "clean-css": "^4.2.1",
     "lodash": "^4.17.11",
     "nodemon": "^1.18.10"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nlvo/dating-app.git"
-  },
+  "repository": "nlvo/dating-app",
   "bugs": {
     "url": "https://github.com/nlvo/dating-app/issues"
   },

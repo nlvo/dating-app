@@ -1,8 +1,22 @@
-var Case = require('case'),
-	filename = Case.kebab('whitespace random$#@#characters filename'),
-	firstname = 'Jane',
-	lastname = 'Doe',
-	fullname = Case.capital(firstname + lastname),
-	validator = require('validator');
+const express = require('express')
+const pug = require('pug')
+const app = express()
+const port = 3000
 
-console.log(filename, fullname, validator.isAlpha(firstname));
+app.set('view engine', 'pug');
+
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+app.get('/about', (req, res) => {
+  res.render('about');
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.use(express.static(__dirname + '/public'));
+
+app.listen(port);

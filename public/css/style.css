@@ -1,0 +1,127 @@
+:root {
+  --cinderella-900: #033F49;
+  --cinderella-800: #04687C;
+  --cinderella-700: #0C8FA6;
+  --cinderella-600: #0EBEDD;
+  --cinderella-500: #68E8FF;
+  --cinderella-400: #82ECF8;
+  --cinderella-300: #AFF6F8;
+  --cinderella-200: #D1F9FA;
+  --cinderella-100: #F1FDFE;
+
+  --concrete-900: #21262C;
+  --concrete-800: #374048;
+  --concrete-700: #4F5964;
+  --concrete-600: #657381;
+  --concrete-500: #7E8C9A;
+  --concrete-400: #99A6B2;
+  --concrete-300: #B5BFC9;
+  --concrete-200: #D2D9E0;
+  --concrete-100: #F0F2F5;
+  
+  --pearl-100: #FFFFFF;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Montserrat';
+}
+
+h1 {
+    font-size: 1.625em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.125em;
+}
+
+p {
+	font-family: 'Open Sans';
+}
+
+section {
+	position: relative;
+}
+
+section article {
+	border-radius: 0.150em;
+	position: relative;
+	/*height: 430px;*/
+	/*width: 243px;*/
+    /*position: absolute;*/
+    /*z-index: 3;*/
+}
+
+section article fieldset {
+	border: none;
+	padding: 0;
+}
+
+section article fieldset .card {
+	position: relative;
+}
+
+section article fieldset .card:after {
+	border-bottom-left-radius: 0.150em;
+	border-bottom-right-radius: 0.150em;	
+    bottom: 0;
+    content: '';
+    background-image: linear-gradient(0deg, rgba(33, 38, 44, 0.90) 22%, rgba(47, 52, 58, 0.36) 59%, rgba(58, 63, 68, 0.00) 93%);
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+
+section article fieldset .card img {
+	border-radius: 0.150em;
+	width: 100%;
+}
+
+section article fieldset .card .card__description {
+	bottom: 0;
+    content: '';
+    display: block;
+    left: 0;
+    padding: 1.250em;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+section article fieldset .card .card__description h3 {
+	color: var(--concrete-100);
+}
+
+section article fieldset .card .card__description p {
+	color: var(--concrete-200);
+}
+
+section article fieldset input[type="radio"] {
+    opacity: 0;
+    display: none;
+}
+    
+section article fieldset .card__btn {
+	border: none;
+	background-color: var(--concrete-200);
+	color: var(--pearl-100);
+	padding: 0.750em;
+}
+
+section article fieldset .card__btn--like {
+	background-image: linear-gradient(-134deg, #0C8FA6 0%, #5FDFF6 70%, #68E8FF 100%);
+}

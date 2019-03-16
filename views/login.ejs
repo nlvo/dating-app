@@ -1,0 +1,16 @@
+<% include layout/head.ejs %>
+
+<h1>Login</h1>
+    <form action='/register' methode='POST'>
+        <div>
+            <label for='name'>
+            <input id='name' type='text' name='name'>
+        </div>
+        <div>
+            <label for='description'></label>
+            <input id='description' type='text' name='description'>
+        </div>
+
+        <input type='file' accept='image/*'>
+        <input type='submit' value='register'> 
+<% include layout/footer.ejs %>

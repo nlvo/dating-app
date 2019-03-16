@@ -1,0 +1,10 @@
+<% include layout/head.ejs %>
+
+<% for(var i = 0; i < profile.length; i++) { %>
+
+    <h2><%= profile[i].name %></h2>
+    <p><%= profile[i].description %></p>
+
+<% } %>
+
+<% include layout/footer.ejs %>

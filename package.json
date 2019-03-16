@@ -10,11 +10,14 @@
   "author": "Lien Vo",
   "license": "MIT",
   "dependencies": {
+    "array-find": "^1.0.0",
+    "body-parser": "^1.18.3",
     "case": "^1.6.1",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "express-handlebars": "^3.0.2",
     "imagemin": "^6.1.0",
-    "pug": "^2.0.3",
+    "request": "^2.88.0",
+    "slug": "^1.0.0",
     "validator": "^10.11.0"
   },
   "devDependencies": {

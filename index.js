@@ -1,53 +1,92 @@
-var express = require('express')
-var app = express()
-var port = 3000
-
-app.set('view engine', 'pug');
-
-app.use(express.static(__dirname + '/public'));
+var express = require('express'),
+    bodyParser = require('body-parser'),
+    slug = require('slug'),
+    find = require("array-find"),
+    app = express(),
+    port = 3000,
+    persons = [{
+      id: 'jane-doe',
+      name: 'Jane Doe',
+      description: 'Photographer',
+      series: [
+        'suits',
+        'nikita'
+      ]
+    }, {
+      id: 'john-doe',
+      name: 'John Doe',
+      description: 'Artist',
+      series: [
+        'suits'
+      ]
+    }];
 
 app
+  .set('view engine', 'ejs')
+
+  .use(express.static(__dirname + '/public'))
+  .use(bodyParser.urlencoded({extended: true}))
+
+  // get request
   .get('/', home)
-  .get('/about', about)
-  .get('/login', login)
-  .get('/register', register)
-  .post('/register', createProfile)
+
+	.get('/login', login)
+	.get('/profile/:id', profile)
+	.get('/register', form)
+  
+  // post requests
+	.post('/profile/', add)
+
   .use(notFound)
 
-  .listen(port, listening);
- 
-function home (req, res) {
-  res.render('index');
+	.listen(port, listening);
+
+// pages
+function home(req, res) {
+	res.render('index.ejs', {persons : persons});
 }
 
-function about (req, res) {
-  res.render('about');
+function login(req, res) {
+	res.render('login.ejs');
 }
 
-function login (req, res) {
-  res.render('login');
+function profile(req, res) {
+  var id = req.body.id,
+      myProfile = find(persons, function (value) { //find correct profile
+        return value.id === id;
+      });
+
+	res.render('profile.ejs', {myProfile: myProfile});
 }
 
-function register (req, res) {
-  res.render('register');
+function form(req, res) {
+	res.render('register.ejs');
 }
 
-function createProfile (req, res) {
-  var name = req.body.name,
-      description = req.body.description;
+// form
+function add(req, res) {
+  var id = slug(req.body.id).toLowerCase(); //cleans up the path/slug
 
-  // input[name="username"]
-  // req.body.username ^
-  // form ...
-  // req.body ^
+	// input[name="username"]
+	// req.body.username ^
+	// form ...
+	// req.body ^
+  
+  // push form data in an object
+	profiles.push({
+    id: id,
+    name: req.body.name,
+    description: req.body.description
+  });
 
-  res.render('login', { name: name,  description: description});
+  res.redirect('/profile/' + id);
 }
 
-function notFound (req, res, next) {
-  res.status(404).send('not found 404')
+// error
+function notFound(req, res, next) {
+	res.status(404).send('not found 404')
 }
 
 function listening() {
-  console.log('Listening on port: ' + port);
+	console.log('Listening on port: ' + port);
 }

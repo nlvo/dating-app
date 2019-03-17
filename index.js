@@ -1,49 +1,53 @@
 var express = require('express'),
-    bodyParser = require('body-parser'),
-    slug = require('slug'),
-    find = require("array-find"),
-    app = express(),
-    port = 3000,
-    persons = [{
-      id: 'jane-doe',
-      name: 'Jane Doe',
-      description: 'Photographer',
-      series: [
-        'suits',
-        'nikita'
-      ]
-    }, {
-      id: 'john-doe',
-      name: 'John Doe',
-      description: 'Artist',
-      series: [
-        'suits'
-      ]
-    }];
+	bodyParser = require('body-parser'),
+	slug = require('slug'),
+	find = require('array-find'),
+	app = express(),
+	port = 3000,
+	persons = [{
+		id: 'jane-doe',
+		name: 'Jane Doe',
+		description: 'Photographer',
+		series: [
+			'suits',
+			'nikita'
+		]
+	}, {
+		id: 'john-doe',
+		name: 'John Doe',
+		description: 'Artist',
+		series: [
+			'suits'
+		]
+	}];
 
 app
-  .set('view engine', 'ejs')
+	.set('view engine', 'ejs')
 
-  .use(express.static(__dirname + '/public'))
-  .use(bodyParser.urlencoded({extended: true}))
+	.use(express.static(__dirname + '/public'))
+	.use(bodyParser.urlencoded({
+		extended: true
+	}))
 
-  // get request
-  .get('/', home)
+	// get request
+	.get('/', home)
 
 	.get('/login', login)
 	.get('/profile/:id', profile)
 	.get('/register', form)
-  
-  // post requests
+
+	// post requests
 	.post('/profile/', add)
 
-  .use(notFound)
+	.use(notFound)
 
 	.listen(port, listening);
 
 // pages
 function home(req, res) {
-	res.render('index.ejs', {persons : persons});
+	res.render('index.ejs', {
+		persons: persons
+	});
 }
 
 function login(req, res) {
@@ -51,12 +55,11 @@ function login(req, res) {
 }
 
 function profile(req, res) {
-  var id = req.body.id,
-      myProfile = find(persons, function (value) { //find correct profile
-        return value.id === id;
-      });
-
-	res.render('profile.ejs', {myProfile: myProfile});
+	var id = req.params.id,
+		person = find(persons, function (value) { //find correct profile
+			return value.id === id;
+		});
+	res.render('profile.ejs', {person: person});
 }
 
 function form(req, res) {
@@ -65,21 +68,21 @@ function form(req, res) {
 
 // form
 function add(req, res) {
-  var id = slug(req.body.id).toLowerCase(); //cleans up the path/slug
+	var id = slug(req.body.id).toLowerCase(); //cleans up the path/slug
 
 	// input[name="username"]
 	// req.body.username ^
 	// form ...
 	// req.body ^
-  
-  // push form data in an object
-	profiles.push({
-    id: id,
-    name: req.body.name,
-    description: req.body.description
-  });
 
-  res.redirect('/profile/' + id);
+	// push form data in an object
+	persons.push({
+		id: id,
+		name: req.body.name,
+		description: req.body.description
+	});
+
+	res.redirect('/profile/' + id);
 }
 
 // error

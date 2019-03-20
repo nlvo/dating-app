@@ -1,5 +1,7 @@
 var express = require('express'),
 	bodyParser = require('body-parser'),
+	multer = require('multer'),
+	upload = multer({ dest: 'public/uploads/' }),
 	slug = require('slug'),
 	find = require('array-find'),
 	app = express(),
@@ -8,6 +10,7 @@ var express = require('express'),
 		{
 			id: 'jane-doe',
 			name: 'Jane Doe',
+			avatar: '',
 			description: 'Photographer',
 			series: [
 				'suits',
@@ -16,6 +19,7 @@ var express = require('express'),
 		}, {
 			id: 'john-doe',
 			name: 'John Doe',
+			avatar: '',
 			description: 'Artist',
 			series: [
 				'suits'
@@ -27,6 +31,7 @@ app
 	.set('view engine', 'ejs')
 
 	.use(express.static(__dirname + '/public'))
+	.use(express.static(__dirname + '/uploads'))
 	.use(bodyParser.urlencoded({
 		extended: true
 	}))
@@ -39,7 +44,7 @@ app
 	.get('/register', form)
 
 	// post requests
-	.post('/profile/', add)
+	.post('/profile', upload.single('avatar'), createProfile)
 
 	.use(notFound)
 
@@ -68,8 +73,8 @@ function profile(req, res) {
 	res.render('profile.ejs', {persons: person});
 }
 
-// form
-function add(req, res) {
+// form to create a profile
+function createProfile(req, res, next) {
 	var id = slug(req.body.name).toLowerCase(); //cleans up the path/slug
 
 	// input[name="username"]
@@ -81,8 +86,11 @@ function add(req, res) {
 	persons.push({
 		id: id,
 		name: req.body.name,
+		avatar: req.file,
 		description: req.body.description
 	});
+
+	console.log(req.file);
 
 	res.redirect('/profile/' + id);
 }

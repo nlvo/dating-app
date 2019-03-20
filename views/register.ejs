@@ -1,11 +1,13 @@
 <% include layout/head.ejs %>
 <h1>Register</h1>
-<form action='/profile/' method='POST'>
+<form action='/profile' method='POST' enctype='multipart/form-data'>
     <label for='name'>Name</label>
     <input id='name' type='text' name='name'>
 
     <label for='description'>Description</label>
     <input id='description' type='text' name='description'>
+
+    <input type='file' accept='image/*' name='avatar'>
 
     <button>Add</button>
 </form>

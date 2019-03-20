@@ -1,16 +1,13 @@
 <% include layout/head.ejs %>
 <h1>Register</h1>
-    <form action='/profile/' methode='POST'>
-        <div>
-            <label for='name'>name</label>
-            <input id='name' type='text' name='name'>
-        </div>
-        <div>
-            <label for='description'>description</label>
-            <input id='description' type='text' name='description'>
-        </div>
+<form action='/profile/' method='POST'>
+    <label for='name'>Name</label>
+    <input id='name' type='text' name='name'>
 
-        <!-- <input type='file' accept='image/*'> -->
-        <input type='submit' value='register'> 
-    </form>
+    <label for='description'>Description</label>
+    <input id='description' type='text' name='description'>
+
+    <button>Add</button>
+</form>
+
 <% include layout/footer.ejs %>

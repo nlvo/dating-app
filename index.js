@@ -4,22 +4,24 @@ var express = require('express'),
 	find = require('array-find'),
 	app = express(),
 	port = 3000,
-	persons = [{
-		id: 'jane-doe',
-		name: 'Jane Doe',
-		description: 'Photographer',
-		series: [
-			'suits',
-			'nikita'
-		]
-	}, {
-		id: 'john-doe',
-		name: 'John Doe',
-		description: 'Artist',
-		series: [
-			'suits'
-		]
-	}];
+	persons = [
+		{
+			id: 'jane-doe',
+			name: 'Jane Doe',
+			description: 'Photographer',
+			series: [
+				'suits',
+				'nikita'
+			]
+		}, {
+			id: 'john-doe',
+			name: 'John Doe',
+			description: 'Artist',
+			series: [
+				'suits'
+			]
+		}
+	];
 
 app
 	.set('view engine', 'ejs')
@@ -54,21 +56,21 @@ function login(req, res) {
 	res.render('login.ejs');
 }
 
-function profile(req, res) {
-	var id = req.params.id,
-		person = find(persons, function (value) { //find correct profile
-			return value.id === id;
-		});
-	res.render('profile.ejs', {person: person});
-}
-
 function form(req, res) {
 	res.render('register.ejs');
 }
 
+function profile(req, res) {
+	var id = req.params.id, //checks params /profile/:id
+		person = find(persons, function (value) { //find correct profile
+			return value.id === id;
+		});
+	res.render('profile.ejs', {persons: person});
+}
+
 // form
 function add(req, res) {
-	var id = slug(req.body.id).toLowerCase(); //cleans up the path/slug
+	var id = slug(req.body.name).toLowerCase(); //cleans up the path/slug
 
 	// input[name="username"]
 	// req.body.username ^

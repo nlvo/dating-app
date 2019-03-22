@@ -1,31 +1,32 @@
 var express = require('express'),
-	bodyParser = require('body-parser'),
-	multer = require('multer'),
-	upload = multer({ dest: 'public/uploads/' }),
-	slug = require('slug'),
-	find = require('array-find'),
 	app = express(),
 	port = 3000,
-	persons = [
-		{
-			id: 'jane-doe',
-			name: 'Jane Doe',
-			avatar: '',
-			description: 'Photographer',
-			series: [
-				'suits',
-				'nikita'
-			]
-		}, {
-			id: 'john-doe',
-			name: 'John Doe',
-			avatar: '',
-			description: 'Artist',
-			series: [
-				'suits'
-			]
-		}
-	];
+
+	// form
+	bodyParser = require('body-parser'),
+	multer = require('multer'),
+	upload = multer({
+		dest: 'public/uploads/'
+	}),
+
+	// db
+	mongo = require('mongodb');
+	require('dotenv').config();
+
+var db = null,
+	url = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT,
+
+	slug = require('slug'),
+	find = require('array-find');
+
+
+mongo.MongoClient.connect(url, function (err, client) {
+	if (err) {
+		throw err
+	} else {
+		db = client.db(process.env.DB_NAME);
+	}
+});
 
 app
 	.set('view engine', 'ejs')
@@ -40,21 +41,30 @@ app
 	.get('/', home)
 
 	.get('/login', login)
-	.get('/profile/:id', profile)
+	.get('/account/:id', profile)
 	.get('/register', form)
 
 	// post requests
-	.post('/profile', upload.single('avatar'), createProfile)
+	.post('/account', upload.single('avatar'), createProfile)
 
 	.use(notFound)
 
 	.listen(port, listening);
 
 // pages
-function home(req, res) {
-	res.render('index.ejs', {
-		persons: persons
-	});
+function home(req, res, next) {
+
+	db.collection('users').find().toArray(done); //find users db
+
+	function done(err, users) {
+		if (err) {
+			next(err);
+		} else {
+			res.render('index.ejs', {
+				users: users
+			});
+		}
+	}
 }
 
 function login(req, res) {
@@ -66,33 +76,64 @@ function form(req, res) {
 }
 
 function profile(req, res) {
-	var id = req.params.id, //checks params /profile/:id
-		person = find(persons, function (value) { //find correct profile
-			return value.id === id;
-		});
-	res.render('profile.ejs', {persons: person});
+	var id = req.params.id; //checks params /profile/:id
+	db.collection('users').findOne({
+		_id: mongo.ObjectID(id)
+	}, done);
+	// person = find(persons, function (value) { //find correct profile
+	// 	return value.id === id;
+	// });
+
+	function done(err, users) {
+		if (err) {
+			next(err);
+		} else {
+			res.render('account.ejs', {
+				users: users
+			});
+		}
+	}
 }
 
 // form to create a profile
 function createProfile(req, res, next) {
-	var id = slug(req.body.name).toLowerCase(); //cleans up the path/slug
-
+	// var id = slug(req.body.name).toLowerCase(); //cleans up the path/slug
+	db.collection('users').insertOne({
+		name: req.body.name,
+		age: req.body.age,
+		gender: req.body.gender,
+		email: req.body.email,
+		password: req.body.password,
+		description: req.body.description,
+		avatar: req.file ? req.file.filename : null,
+		images: [],
+		fave_series: [],
+		likes: [],
+		superlikes: []
+	}, done);
 	// input[name="username"]
 	// req.body.username ^
 	// form ...
 	// req.body ^
 
 	// push form data in an object
-	persons.push({
-		id: id,
-		name: req.body.name,
-		avatar: req.file,
-		description: req.body.description
-	});
+	// persons.push({
+	// 	id: id,
+	// 	name: req.body.name,
+	// 	avatar: req.file,
+	// 	description: req.body.description
+	// });
+
+	function done(err, users) {
+		if (err) {
+			next(err);
+		} else {
+			res.redirect('/account/' + users.insertedId);
+		}
+	}
 
 	console.log(req.file);
 
-	res.redirect('/profile/' + id);
 }
 
 // error

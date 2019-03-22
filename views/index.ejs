@@ -3,13 +3,9 @@
 	<section>
 		<h2>Find your soulmate</h2>
 		
-		<% for(var i = 0; i < persons.length; i++) { %>
+		<% include partials/profile.ejs %>
 
-			<h2><%= persons[i].name %></h2>
-		
-		<% } %>
-
-		<div class="matches">
+		<!-- <div class="matches">
 			<article class="show active">
 				<div class="card">
 					<div class="card__description">
@@ -60,7 +56,7 @@
 			<button class="card__btn card__btn--superlike card__btn--secundair" for="superlike">
 				<img src="img/superlike.svg" alt="">
 			</button>
-		</div>
+		</div> -->
 	</section>
 
 <% include layout/footer.ejs %>

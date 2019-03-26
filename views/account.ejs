@@ -1,3 +1,6 @@
-<h2><%= users.name %></h2>
-<p><%= users.description %></p>
-<img src="<%= users.avatar.path %>" alt="">
+<% include layout/head.ejs %>
+
+    <h2><%= user.name %></h2>
+    <p><%= user.description %></p>
+
+<% include layout/footer.ejs %>

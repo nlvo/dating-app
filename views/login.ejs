@@ -1,17 +1,16 @@
 <% include layout/head.ejs %>
 
 <h1>Login</h1>
-    <form action='/register' methode='POST'>
+    <form action='/login' method='POST'>
         <div>
-            <label for='name'>
+            <label for='name'>Name</label>
             <input id='name' type='text' name='name'>
         </div>
         <div>
-            <label for='description'></label>
-            <input id='description' type='text' name='description'>
+            <label for='password'>Password</label>
+            <input id='password' type='text' name='password'>
         </div>
 
-        <input type='file' accept='image/*'>
-        <input type='submit' value='register'> 
+        <input type='submit' value='login'> 
     </form>
 <% include layout/footer.ejs %>

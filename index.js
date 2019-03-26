@@ -1,6 +1,7 @@
 var express = require('express'),
 	app = express(),
 	port = 3000,
+	session = require('express-session'),
 
 	// form
 	bodyParser = require('body-parser'),
@@ -14,13 +15,11 @@ var express = require('express'),
 	require('dotenv').config();
 
 var db = null,
-	url = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT,
-
-	slug = require('slug'),
-	find = require('array-find');
+	url = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT;
 
 
-mongo.MongoClient.connect(url, function (err, client) {
+// connect to database (local)
+mongo.MongoClient.connect(url, { useNewUrlParser: true }, function (err, client) {
 	if (err) {
 		throw err
 	} else {
@@ -36,16 +35,26 @@ app
 	.use(bodyParser.urlencoded({
 		extended: true
 	}))
+	.use(session({
+		secret: 'peaceee',
+		resave: false,
+		saveUninitialized: true
+	}))
 
 	// get request
 	.get('/', home)
 
-	.get('/login', login)
+	.get('/login', loginForm)
+	.get('/logout', logout)
 	.get('/account/:id', profile)
-	.get('/register', form)
+	.get('/register', registerForm)
 
 	// post requests
 	.post('/account', upload.single('avatar'), createProfile)
+	.post('/login', login)
+
+	// put/update
+	.put('/:id/update', likeProfile)
 
 	.use(notFound)
 
@@ -54,51 +63,84 @@ app
 // pages
 function home(req, res, next) {
 
-	db.collection('users').find().toArray(done); //find users db
+	db.collection('user').find().toArray(done); //find users in db
 
-	function done(err, users) {
+	function done(err, user) {
 		if (err) {
 			next(err);
 		} else {
 			res.render('index.ejs', {
-				users: users
+				user: user,
+				user_logged_in: req.session.user
 			});
 		}
 	}
 }
 
-function login(req, res) {
+function loginForm(req, res) {
 	res.render('login.ejs');
 }
 
-function form(req, res) {
+function registerForm(req, res) {
 	res.render('register.ejs');
 }
 
 function profile(req, res) {
-	var id = req.params.id; //checks params /profile/:id
-	db.collection('users').findOne({
+	var id = req.params.id; //checks params /profile/:id, pass params id
+
+	//find the correct profile by id
+	db.collection('user').findOne({  
 		_id: mongo.ObjectID(id)
 	}, done);
-	// person = find(persons, function (value) { //find correct profile
-	// 	return value.id === id;
-	// });
 
-	function done(err, users) {
+	function done(err, user) {
 		if (err) {
 			next(err);
 		} else {
 			res.render('account.ejs', {
-				users: users
+				user: user
 			});
 		}
 	}
 }
 
+function login(req, res, next){
+	var name = req.body.name,
+		password = req.body.password;
+
+	// Check if user exist or not
+	db.collection('user').findOne({  
+		name: name,
+		password: password
+	}, done);
+
+	function done(err, user) {
+		if (err) {
+			next(err);
+		} else if (user) {
+			req.session.user = {name : user.name, id: user._id}; // pass name value inside object to session.user
+			console.log(req.session);
+			res.redirect('/account/' + user._id);
+		}
+		else {
+			res.send('not found')
+		}
+	}
+}
+
+function logout(req, res, next) {
+	req.session.destroy(function (err){ //destroy the session
+		if (err) {
+			next(err);
+		} else {
+			res.redirect('/');
+		}
+	});
+}
+
 // form to create a profile
 function createProfile(req, res, next) {
-	// var id = slug(req.body.name).toLowerCase(); //cleans up the path/slug
-	db.collection('users').insertOne({
+	db.collection('user').insertOne({
 		name: req.body.name,
 		age: req.body.age,
 		gender: req.body.gender,
@@ -111,29 +153,50 @@ function createProfile(req, res, next) {
 		likes: [],
 		superlikes: []
 	}, done);
+
 	// input[name="username"]
 	// req.body.username ^
 	// form ...
 	// req.body ^
 
-	// push form data in an object
-	// persons.push({
-	// 	id: id,
-	// 	name: req.body.name,
-	// 	avatar: req.file,
-	// 	description: req.body.description
-	// });
-
-	function done(err, users) {
+	function done(err, user) {
 		if (err) {
 			next(err);
 		} else {
-			res.redirect('/account/' + users.insertedId);
+			res.redirect('/account/' + user.insertedId);
 		}
 	}
 
 	console.log(req.file);
 
+}
+
+function likeProfile(req, res, next) {
+	db.collection('user').updateOne({
+		_id: mongo.ObjectID('5c9933534450a0dcedb6cd0c')
+	}, {
+		$set: {
+			likes: [
+				{
+					user_id: req.session.id,
+					liked: req.body.like
+				}
+			]
+		},
+	}, {
+		upsert: true
+	},done);
+
+	console.log(req.body);
+
+	function done(err) {
+		if (err) {
+			next(err);
+		} else {
+			res.redirect('/');
+			// res.send('HEOOOLLEEOO');
+		}
+	}
 }
 
 // error

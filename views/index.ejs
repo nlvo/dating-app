@@ -1,62 +1,16 @@
 <% include layout/head.ejs %>
+	<% if (user_logged_in) { %>
+		<p>Welcome back <%= user_logged_in.name %>!</p>
+		<a href=/logout>Log out</a>
+	<% } else { %>
+		<a href=/login>Log in</a>
+		or
+		<a href=/register>Sign up</a>
+	<% } %>
 
 	<section>
 		<h2>Find your soulmate</h2>
-		
 		<% include partials/profile.ejs %>
-
-		<!-- <div class="matches">
-			<article class="show active">
-				<div class="card">
-					<div class="card__description">
-						<h2>Name 1</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
-					</div>
-					<img src="img/profile.jpg">
-				</div>
-			</article>
-			<article class="active">
-				<div class="card">
-					<div class="card__description">
-						<h2>Name 2</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
-					</div>
-					<img src="img/profile.jpg">
-				</div>
-			</article>
-			<article class="active">
-				<div class="card">
-					<div class="card__description">
-						<h2>Name 2</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
-					</div>
-					<img src="img/profile.jpg">
-				</div>
-			</article>
-			<article>
-				<div class="card">
-					<div class="card__description">
-						<h2>Name 2</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
-					</div>
-					<img src="img/profile.jpg">
-				</div>
-			</article>
-		</div>
-		<div class="controls">
-			<button class="card__btn card__btn--undo card__btn--secundair" for="undo">
-				<img src="img/undo.svg" alt="">
-			</button>
-			<button class="card__btn card__btn--pass" for="pass">
-				<img src="img/pass.svg" alt="">
-			</button>
-			<button class="card__btn card__btn--like" for="like">
-				<img src="img/like.svg" alt="">
-			</button>
-			<button class="card__btn card__btn--superlike card__btn--secundair" for="superlike">
-				<img src="img/superlike.svg" alt="">
-			</button>
-		</div> -->
 	</section>
 
 <% include layout/footer.ejs %>

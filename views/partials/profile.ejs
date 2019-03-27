@@ -4,7 +4,7 @@
         <form action='/<%= user[i]._id %>/like' method='POST'>
             <fieldset>
                 <div class='card'>
-                        <img src="img/profile.jpg">
+                        <img src='/uploads/<%= user[i].avatar %>'>
                         <div class='card__description'>
                         <h2>
                             <%= user[i].name %>

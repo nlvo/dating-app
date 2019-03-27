@@ -1,16 +1,25 @@
 <% include layout/head.ejs %>
+	<nav>
+		<ul>
+			<% if (user_logged_in) { %>
+				<li><p>Welcome back <%= user_logged_in.name %>!</p></li>
+				<li><a href=/logout>Log out</a></li>
+			<% } else { %>
+				<li><a href=/login>Log in</a></li>
+				<li><a href=/register>Sign up</a></li>
+			<% } %>
+		</ul>
+	</nav>
+	
 	<% if (user_logged_in) { %>
-		<p>Welcome back <%= user_logged_in.name %>!</p>
-		<a href=/logout>Log out</a>
-	<% } else { %>
-		<a href=/login>Log in</a>
-		or
-		<a href=/register>Sign up</a>
+		<section>
+			<h2>Find your soulmate</h2>
+			<% include partials/profile.ejs %>
+		</section>
+	<% } else { %>	
+		<header>
+			<img src="/img/logo.svg" alt="">
+			<p>Find your soulmate</p>
+		</header>
 	<% } %>
-
-	<section>
-		<h2>Find your soulmate</h2>
-		<% include partials/profile.ejs %>
-	</section>
-
 <% include layout/footer.ejs %>

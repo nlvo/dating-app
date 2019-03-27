@@ -15,7 +15,10 @@ var express = require('express'),
 	require('dotenv').config();
 
 var db = null,
-	url = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT;
+	dbName = process.env.DB_NAME,
+	dbHost = process.env.DB_HOST,
+	dbPort = process.env.DB_PORT,
+	url = 'mongodb://' + dbHost + ':' + dbPort;
 
 
 // connect to database (local)
@@ -23,7 +26,7 @@ mongo.MongoClient.connect(url, { useNewUrlParser: true }, function (err, client)
 	if (err) {
 		throw err
 	} else {
-		db = client.db(process.env.DB_NAME);
+		db = client.db(dbName);
 	}
 });
 
@@ -36,7 +39,7 @@ app
 		extended: true
 	}))
 	.use(session({
-		secret: 'peaceee',
+		secret: 'secret',
 		resave: false,
 		saveUninitialized: true
 	}))
@@ -54,7 +57,7 @@ app
 	.post('/login', login)
 
 	// put/update
-	.put('/:id/update', likeProfile)
+	.post('/:id/like', likeProfile)
 
 	.use(notFound)
 
@@ -113,13 +116,16 @@ function login(req, res, next){
 		name: name,
 		password: password
 	}, done);
+	
+	// https://stackoverflow.com/questions/44687044/node-js-check-if-user-exists
 
 	function done(err, user) {
 		if (err) {
 			next(err);
 		} else if (user) {
-			req.session.user = {name : user.name, id: user._id}; // pass name value inside object to session.user
-			console.log(req.session);
+			req.session.user = {
+				name : user.name // pass name value inside object to session.user
+			};
 			res.redirect('/account/' + user._id);
 		}
 		else {
@@ -172,13 +178,14 @@ function createProfile(req, res, next) {
 }
 
 function likeProfile(req, res, next) {
+	var id = req.params.id;
 	db.collection('user').updateOne({
-		_id: mongo.ObjectID('5c9933534450a0dcedb6cd0c')
+		_id: mongo.ObjectID(id)
 	}, {
 		$set: {
 			likes: [
 				{
-					user_id: req.session.id,
+					user_id: req.session.user.id,
 					liked: req.body.like
 				}
 			]
@@ -187,14 +194,11 @@ function likeProfile(req, res, next) {
 		upsert: true
 	},done);
 
-	console.log(req.body);
-
 	function done(err) {
 		if (err) {
 			next(err);
 		} else {
 			res.redirect('/');
-			// res.send('HEOOOLLEEOO');
 		}
 	}
 }

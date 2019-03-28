@@ -68,6 +68,8 @@ app
 
 	// put/update
 	.put('/account/:id/like', likeProfile)
+	
+	.delete('/account/:id/delete', deleteProfile)
 
 	.use(notFound)
 
@@ -188,6 +190,24 @@ function createProfile(req, res, next) {
 
 	console.log(req.file);
 
+}
+
+function deleteProfile(req, res, next) {
+	var id = req.params.id,
+	password = req.body.password;
+
+	// Check if user exist or not
+	db.collection('user').findOneAndDelete({  
+		_id: mongo.ObjectID(id)
+	}, done);
+
+	function done(err) {
+		if (err) {
+			next(err);
+		} else {
+			res.redirect('/');
+		}
+	}
 }
 
 function likeProfile(req, res, next) {

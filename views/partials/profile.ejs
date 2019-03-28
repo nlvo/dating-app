@@ -1,7 +1,7 @@
 <div class='matches'>
     <% for(var i = 0; i < user.length; i++) { %>
     <article class='show active'>
-        <form action='/<%= user[i]._id %>/like' method='POST'>
+        <form action='/account/<%= user[i]._id %>/like?_method=PUT' method='POST'>
             <fieldset>
                 <div class='card'>
                         <img src='/uploads/<%= user[i].avatar %>'>

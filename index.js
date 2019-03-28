@@ -6,6 +6,7 @@ var express = require('express'),
 	// form
 	bodyParser = require('body-parser'),
 	multer = require('multer'),
+	methodOverride = require('method-override'),
 	mime = require('mime-types'),
 	storage = multer.diskStorage({
 		destination: function (req, file, cb) {
@@ -51,6 +52,7 @@ app
 		resave: false,
 		saveUninitialized: true
 	}))
+	.use(methodOverride('_method'))
 
 	// get request
 	.get('/', home)
@@ -65,7 +67,7 @@ app
 	.post('/login', login)
 
 	// put/update
-	.post('/:id/like', likeProfile)
+	.put('/account/:id/like', likeProfile)
 
 	.use(notFound)
 
@@ -155,7 +157,6 @@ function logout(req, res, next) {
 
 // form to create a profile
 function createProfile(req, res, next) {
-	// var filename = req.file.filename + '.' + mime.extension(req.file.mimetype);
 	// https://stackoverflow.com/questions/35511348/multer-not-adding-file-extension
 
 	db.collection('user').insertOne({

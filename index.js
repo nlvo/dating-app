@@ -27,7 +27,8 @@ var express = require('express'),
 var db = null,
 	dbName = process.env.DB_NAME,
 	dbHost = process.env.DB_HOST,
-	url = 'mongodb+srv://' + dbHost;
+	dbPort = process.env.DB_PORT,
+	url = 'mongodb://' + dbHost + ':' + dbPort;
 
 // connect to database (local)
 mongo.MongoClient.connect(url, { useNewUrlParser: true }, function (err, client) {

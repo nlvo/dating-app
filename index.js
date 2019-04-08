@@ -5,24 +5,11 @@ var express = require('express'),
 
 	// form
 	bodyParser = require('body-parser'),
-	multer = require('multer'),
 	methodOverride = require('method-override'),
-	mime = require('mime-types'),
-	storage = multer.diskStorage({
-		destination: function (req, file, cb) {
-			cb(null, 'public/uploads')
-		},
-		filename: function (req, file, cb) {
-			cb(null, file.fieldname + '-' + Date.now() + '.' + mime.extension(file.mimetype))
-		}
-	}),
-	upload = multer({
-		dest: 'public/uploads',
-		storage: storage
-	}),
+
 	// db
 	mongo = require('mongodb');
-	require('dotenv').config();
+require('dotenv').config();
 
 var db = null,
 	dbName = process.env.DB_NAME,
@@ -30,8 +17,12 @@ var db = null,
 	dbPort = process.env.DB_PORT,
 	url = 'mongodb://' + dbHost + ':' + dbPort;
 
+var auth = require('./routes/auth');
+
 // connect to database (local)
-mongo.MongoClient.connect(url, { useNewUrlParser: true }, function (err, client) {
+mongo.MongoClient.connect(url, {
+	useNewUrlParser: true
+}, function (err, client) {
 	if (err) {
 		throw err
 	} else {
@@ -53,23 +44,13 @@ app
 		saveUninitialized: true
 	}))
 	.use(methodOverride('_method'))
-
+	.use(auth)
+	
 	// get request
 	.get('/', home)
 
-	.get('/login', loginForm)
-	.get('/logout', logout)
-	.get('/account/:id', profile)
-	.get('/register', registerForm)
-
-	// post requests
-	.post('/account', upload.single('avatar'), createProfile)
-	.post('/login', login)
-
 	// put/update
 	.put('/account/:id/like', likeProfile)
-	
-	.delete('/account/:id/delete', deleteProfile)
 
 	.use(notFound)
 
@@ -92,124 +73,6 @@ function home(req, res, next) {
 	}
 }
 
-function loginForm(req, res) {
-	res.render('login.ejs');
-}
-
-function registerForm(req, res) {
-	res.render('register.ejs');
-}
-
-function profile(req, res) {
-	var id = req.params.id; //checks params /profile/:id, pass params id
-
-	//find the correct profile by id
-	db.collection('user').findOne({  
-		_id: mongo.ObjectID(id)
-	}, done);
-
-	function done(err, user) {
-		if (err) {
-			next(err);
-		} else {
-			res.render('account.ejs', {
-				user: user
-			});
-		}
-	}
-}
-
-function login(req, res, next){
-	var name = req.body.name,
-		password = req.body.password;
-
-	// Check if user exist or not
-	db.collection('user').findOne({  
-		name: name,
-		password: password
-	}, done);
-	
-	// https://stackoverflow.com/questions/44687044/node-js-check-if-user-exists
-
-	function done(err, user) {
-		if (err) {
-			next(err);
-		} else if (user) {
-			req.session.user = {
-				name : user.name, // pass name value inside object to session.user
-				id : user._id
-			};
-			res.redirect('/account/' + user._id);
-		}
-		else {
-			res.send('not found')
-		}
-	}
-}
-
-function logout(req, res, next) {
-	req.session.destroy(function (err){ //destroy the session
-		if (err) {
-			next(err);
-		} else {
-			res.redirect('/');
-		}
-	});
-}
-
-// form to create a profile
-function createProfile(req, res, next) {
-	// https://stackoverflow.com/questions/35511348/multer-not-adding-file-extension
-
-	db.collection('user').insertOne({
-		name: req.body.name,
-		age: req.body.age,
-		gender: req.body.gender,
-		email: req.body.email,
-		password: req.body.password,
-		description: req.body.description,
-		avatar: req.file ? req.file.filename : null,
-		images: [],
-		fave_series: [],
-		likes: [],
-		superlikes: []
-	}, done);
-
-	// input[name="username"]
-	// req.body.username ^
-	// form ...
-	// req.body ^
-
-	function done(err, user) {
-		if (err) {
-			next(err);
-		} else {
-			res.redirect('/account/' + user.insertedId);
-		}
-	}
-
-	console.log(req.file);
-
-}
-
-function deleteProfile(req, res, next) {
-	var id = req.params.id,
-	password = req.body.password;
-
-	// Check if user exist or not
-	db.collection('user').findOneAndDelete({  
-		_id: mongo.ObjectID(id)
-	}, done);
-
-	function done(err) {
-		if (err) {
-			next(err);
-		} else {
-			res.redirect('/');
-		}
-	}
-}
-
 function likeProfile(req, res, next) {
 	var id = req.params.id;
 	db.collection('user').updateOne({
@@ -217,15 +80,12 @@ function likeProfile(req, res, next) {
 	}, {
 		$set: {
 			likes: [
-				{
-					user_id: req.session.user.id, //gives the user.id of the liker
-					liked: req.body.like
-				}
+				mongo.ObjectID(req.session.user.id), //gives the user.id of the liker
 			]
 		},
 	}, {
 		upsert: true
-	},done);
+	}, done);
 
 	function done(err) {
 		if (err) {

@@ -4,9 +4,7 @@ require('dotenv').config();
 
 var db = null,
     dbName = process.env.DB_NAME,
-    dbHost = process.env.DB_HOST,
-    dbPort = process.env.DB_PORT,
-    url = 'mongodb://' + dbHost + ':' + dbPort;
+    url = process.env.DB_URL;
 
 // connect to database (local)
 mongo.MongoClient.connect(url, {
@@ -51,15 +49,5 @@ var login = {
     }
 }
 // https://stackoverflow.com/questions/33589571/module-exports-that-include-all-functions-in-a-single-line
-
-function logout(req, res, next) {
-    req.session.destroy(function (err) { //destroy the session
-        if (err) {
-            next(err);
-        } else {
-            res.redirect('/');
-        }
-    });
-}
 
 module.exports = login;

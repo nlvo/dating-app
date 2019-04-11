@@ -4,9 +4,7 @@ require('dotenv').config();
 
 var db = null,
 	dbName = process.env.DB_NAME,
-	dbHost = process.env.DB_HOST,
-	dbPort = process.env.DB_PORT,
-	url = 'mongodb://' + dbHost + ':' + dbPort;
+	url = process.env.DB_URL;
 
 // connect to database (local)
 mongo.MongoClient.connect(url, {
@@ -27,8 +25,8 @@ var account = {
 		db.collection('user').findOne({
 			_id: mongo.ObjectID(id)
 		}, done);
-		console.log(req.params);
 
+		// console.log(req.params);
 		function done(err, user, next) {
 			if (err) {
 				next(err);
@@ -36,11 +34,57 @@ var account = {
 				res.render('account.ejs', {
 					user: user
 				});
-
 			}
 		}
 
 	},
+	like: function(req, res, next) {
+		var id = req.params.id;
+		db.collection('user').updateOne({
+			_id: mongo.ObjectID(id)
+		}, {
+			$push: {
+				likes: mongo.ObjectID(req.session.user.id), //gives the user.id of the liker
+			},
+		}, done);
+	
+		function done(err) {
+			if (err) {
+				next(err);
+			} else {
+				res.redirect('/');
+			}
+		}
+	},
+	allLikes: function (req, res) {
+		var id = req.params.id; //checks params /profile/:id, pass params id
+		// db.collection('user').find({
+		// 	likes: [mongo.ObjectID(id)]
+		// }).toArray(done);
+		
+		db.collection('user').aggregate([
+			{ "$unwind": "$likes" },
+			{
+			   $lookup:
+				 {
+				   from: "likes",
+				   localField: "likes",
+				   foreignField: "_id",
+				   as: "productObjects"
+				 }
+			},done
+		])
+
+		function done(err, user) {
+			if (err) {
+				next(err);
+			} else {
+				res.redirect('/account/' + user.insertedId + '/likes');
+				console.log(user)
+			}
+		}
+	},
+	// https://stackoverflow.com/questions/34967482/lookup-on-objectids-in-an-array
 	// form to create a profile
 	create: function (req, res, next) {
 		// https://stackoverflow.com/questions/35511348/multer-not-adding-file-extension

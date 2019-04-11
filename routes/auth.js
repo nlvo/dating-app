@@ -19,16 +19,13 @@ var // form
 
 var account = require('../controllers/account');
 var login = require('../controllers/login');
-var signup = require('../controllers/signup');
 
 app
-    .get('/login', login.show)
-    // .get('/logout', logout)
-    .get('/account/:id', account.show)
-    .get('/signup', signup.show)
-
-    // // post requests
+    // post requests
     .post('/account', upload.single('avatar'), account.create)
-    .post('/login', login.validation)
+	.post('/login', login.validation)
+	
+	// put/update
+	.put('/account/:id/like', account.like)
 
 module.exports = app;

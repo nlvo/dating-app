@@ -4,11 +4,9 @@ require('dotenv').config();
 
 var db = null,
 	dbName = process.env.DB_NAME,
-	dbHost = process.env.DB_HOST,
-	dbPort = process.env.DB_PORT,
-	url = 'mongodb://' + dbHost + ':' + dbPort;
+	url = process.env.DB_URL;
 
-// connect to database (local)
+// connect to database
 var url = mongo.MongoClient.connect(url, {
 	useNewUrlParser: true
 }, function (err, client) {

@@ -9,15 +9,14 @@ var express = require('express'),
 
 	// db
 	mongo = require('mongodb');
-require('dotenv').config();
+	require('dotenv').config();
 
 var db = null,
 	dbName = process.env.DB_NAME,
-	dbHost = process.env.DB_HOST,
-	dbPort = process.env.DB_PORT,
-	url = 'mongodb://' + dbHost + ':' + dbPort;
+	url = process.env.DB_URL;
 
 var auth = require('./routes/auth');
+var web = require('./routes/web');
 
 // connect to database (local)
 mongo.MongoClient.connect(url, {
@@ -45,56 +44,11 @@ app
 	}))
 	.use(methodOverride('_method'))
 	.use(auth)
-	
-	// get request
-	.get('/', home)
-
-	// put/update
-	.put('/account/:id/like', likeProfile)
+	.use(web)
 
 	.use(notFound)
 
 	.listen(port, listening);
-
-// pages
-function home(req, res, next) {
-
-	db.collection('user').find().toArray(done); //find users in db
-
-	function done(err, user) {
-		if (err) {
-			next(err);
-		} else {
-			res.render('index.ejs', {
-				user: user,
-				user_logged_in: req.session.user
-			});
-		}
-	}
-}
-
-function likeProfile(req, res, next) {
-	var id = req.params.id;
-	db.collection('user').updateOne({
-		_id: mongo.ObjectID(id)
-	}, {
-		$set: {
-			likes: [
-				mongo.ObjectID(req.session.user.id), //gives the user.id of the liker
-			]
-		},
-	}, {
-		upsert: true
-	}, done);
-
-	function done(err) {
-		if (err) {
-			next(err);
-		} else {
-			res.redirect('/');
-		}
-	}
-}
 
 // error
 function notFound(req, res, next) {

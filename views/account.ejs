@@ -2,7 +2,11 @@
 
     <h2><%= user.name %></h2>
     <p><%= user.description %></p>
+
     <form action="/account/<%= user._id %>/delete?_method=DELETE" method="POST">
         <button>delete account</button>
     </form>
+    <ul>
+
+    </ul>
 <% include layout/footer.ejs %>

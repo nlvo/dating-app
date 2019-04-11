@@ -152,7 +152,7 @@ section article:nth-of-type(2).active {
     left: auto;
     right: 1em;
     z-index: -1;
-    position: absolute;
+    /* position: absolute; */
     /* top: 1em; */
     bottom: 1em;
     width: 70%;
@@ -163,7 +163,7 @@ section article:nth-of-type(3).active {
     left: auto;
     right: 0.25em;
     z-index: -2;
-    position: absolute;
+    /* position: absolute; */
     /* top: 1em; */
     bottom: 2em;
     width: 60%;

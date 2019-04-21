@@ -47,9 +47,11 @@ var account = {
 				next(err);
 			} else {
 				res.render('account.ejs', {
-					user: user[0]
+					user: user[0],
+					user_logged_in: req.session.user
 				});
 			}
+			console.log(user)
 			// console.log(user[0].likes[0].name)
 		}
 

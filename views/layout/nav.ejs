@@ -1,0 +1,12 @@
+<nav>
+    <ul>
+        <li><a href="/">home</a></li>
+        <% if (user_logged_in) { %>
+            <li><p>Welcome back <a href="/account/<%= user_logged_in.id %>"><%= user_logged_in.name %></a>!</p></li>
+            <li><a href=/logout>Log out</a></li>
+        <% } else { %>
+            <li><a href=/login>Log in</a></li>
+            <li><a href=/register>Sign up</a></li>
+        <% } %>
+    </ul>
+</nav>

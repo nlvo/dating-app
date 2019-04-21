@@ -1,15 +1,5 @@
 <% include layout/head.ejs %>
-	<nav>
-		<ul>
-			<% if (user_logged_in) { %>
-				<li><p>Welcome back <%= user_logged_in.name %>!</p></li>
-				<li><a href=/logout>Log out</a></li>
-			<% } else { %>
-				<li><a href=/login>Log in</a></li>
-				<li><a href=/register>Sign up</a></li>
-			<% } %>
-		</ul>
-	</nav>
+<% include layout/nav.ejs %>
 	
 	<% if (user_logged_in) { %>
 		<section>
@@ -22,4 +12,5 @@
 			<p>Find your soulmate</p>
 		</header>
 	<% } %>
+	
 <% include layout/footer.ejs %>

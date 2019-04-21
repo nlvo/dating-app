@@ -40,7 +40,8 @@ var account = {
 			}
 		  ]
 		).toArray(done);
-
+		
+		// https://stackoverflow.com/questions/50250136/mongodb-aggregate-with-match-lookup-and-project
 		// console.log(req.params);
 		function done(err, user, next) {
 			if (err) {
@@ -51,7 +52,6 @@ var account = {
 					user_logged_in: req.session.user
 				});
 			}
-			console.log(user)
 			// console.log(user[0].likes[0].name)
 		}
 
@@ -59,10 +59,10 @@ var account = {
 	like: function(req, res, next) {
 		var id = req.params.id;
 		db.collection('user').updateOne({
-			_id: mongo.ObjectID(id)
+			_id: mongo.ObjectID(id),
 		}, {
-			$push: {
-				likes: mongo.ObjectID(req.session.user.id), //gives the user.id of the liker
+			$addToSet: { //adds value to an array only if it doesn't exist yet
+				likes: mongo.ObjectID(req.session.user.id) //gives the user.id of the liker
 			},
 		}, done);
 	
@@ -71,37 +71,6 @@ var account = {
 				next(err);
 			} else {
 				res.redirect('/');
-			}
-		}
-	},
-	allLikes: function (req, res) {
-		var id = req.params.id; //checks params /profile/:id, pass params id
-		// db.collection('user').find({
-		// 	likes: [mongo.ObjectID(id)]
-		// }).toArray(done);
-		
-		db.collection('user').aggregate([
-			{	
-				$match: {
-					'_id': id
-				}
-			},
-			{
-				$lookup: {
-					from: 'user',
-					localField: 'likes',
-					foreignField: '_id',
-					as: 'allLikes'
-				}
-			}, done])
-
-		function done(err, user) {
-			if (err) {
-				next(err);
-			} else {
-				console.log(user)
-
-				res.redirect('/account/' + user.id + '/likes');
 			}
 		}
 	},

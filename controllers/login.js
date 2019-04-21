@@ -36,7 +36,8 @@ var login = {
             } else if (user) {
                 req.session.user = {
                     name: user.name, // pass name value inside object to session.user
-                    id: user._id
+                    id: user._id,
+                    likes: user.likes
                 };
                 res.redirect('/account/' + user._id);
             } else {

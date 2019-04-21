@@ -180,6 +180,17 @@ section article .card {
     width: 100%;
 }
 
+section article .card.card--superliked {
+    border: 1px solid var(--gold-500);
+}
+
+section article .card.card--superliked:before {
+    content: url('/img/superliked.svg');
+    position: absolute;
+    right: 0.625em;
+    top: -1em;
+}
+
 section article .card:after {
     border-bottom-left-radius: 0.150em;
     border-bottom-right-radius: 0.150em;

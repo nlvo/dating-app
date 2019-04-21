@@ -3,10 +3,14 @@
     <h2><%= user.name %></h2>
     <p><%= user.description %></p>
 
+    <ul>
+        <% for(i = 0; i < user.likes.length; i++){ %>
+            <li><a href="/account/<%= user.likes[i]._id %>"><%= user.likes[i].name %></a></li>
+        <% }%>
+    </ul>
+
     <form action="/account/<%= user._id %>/delete?_method=DELETE" method="POST">
         <button>delete account</button>
     </form>
-    <ul>
 
-    </ul>
 <% include layout/footer.ejs %>

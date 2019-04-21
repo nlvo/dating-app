@@ -22,9 +22,24 @@ var account = {
 		var id = req.params.id; //checks params /profile/:id, pass params id
 
 		//find the correct profile by id
-		db.collection('user').findOne({
-			_id: mongo.ObjectID(id)
-		}, done);
+		// db.collection('user').findOne({
+		// 	_id: mongo.ObjectID(id)
+		// }, done);
+		db.collection('user').aggregate([
+			{
+			  '$match': {
+				'_id': mongo.ObjectID(id)
+			  }
+			}, {
+			  '$lookup': {
+				'from': 'user', 
+				'localField': 'likes', 
+				'foreignField': '_id', 
+				'as': 'likes'
+			  }
+			}
+		  ]
+		).toArray(done);
 
 		// console.log(req.params);
 		function done(err, user, next) {
@@ -32,9 +47,10 @@ var account = {
 				next(err);
 			} else {
 				res.render('account.ejs', {
-					user: user
+					user: user[0]
 				});
 			}
+			// console.log(user[0].likes[0].name)
 		}
 
 	},
@@ -63,24 +79,27 @@ var account = {
 		// }).toArray(done);
 		
 		db.collection('user').aggregate([
-			{ "$unwind": "$likes" },
+			{	
+				$match: {
+					'_id': id
+				}
+			},
 			{
-			   $lookup:
-				 {
-				   from: "likes",
-				   localField: "likes",
-				   foreignField: "_id",
-				   as: "productObjects"
-				 }
-			},done
-		])
+				$lookup: {
+					from: 'user',
+					localField: 'likes',
+					foreignField: '_id',
+					as: 'allLikes'
+				}
+			}, done])
 
 		function done(err, user) {
 			if (err) {
 				next(err);
 			} else {
-				res.redirect('/account/' + user.insertedId + '/likes');
 				console.log(user)
+
+				res.redirect('/account/' + user.id + '/likes');
 			}
 		}
 	},

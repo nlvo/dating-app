@@ -58,11 +58,40 @@ var account = {
 	},
 	like: function(req, res, next) {
 		var id = req.params.id;
+
+		// receiver | like
 		db.collection('user').updateOne({
 			_id: mongo.ObjectID(id),
 		}, {
 			$addToSet: { //adds value to an array only if it doesn't exist yet
 				likes: mongo.ObjectID(req.session.user.id) //gives the user.id of the liker
+			},
+		}, done);
+		
+		// giver | liked
+		db.collection('user').updateOne({
+			_id: mongo.ObjectID(req.session.user.id),
+		}, {
+			$addToSet: { //adds value to an array only if it doesn't exist yet
+				liked: mongo.ObjectID(id) //save id of the user, who received a like
+			},
+		}, done);
+	
+		function done(err) {
+			if (err) {
+				next(err);
+			} else {
+				res.redirect('/');
+			}
+		}
+	},
+	superLike: function(req, res, next) {
+		var id = req.params.id;
+		db.collection('user').updateOne({
+			_id: mongo.ObjectID(id),
+		}, {
+			$addToSet: { //adds value to an array only if it doesn't exist yet
+				superlikes: mongo.ObjectID(req.session.user.id) //gives the user.id of the liker
 			},
 		}, done);
 	

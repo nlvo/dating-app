@@ -19,8 +19,15 @@ mongo.MongoClient.connect(url, {
 
 var home = {
 	show: function (req, res, next) {
-        db.collection('user').find().toArray(done); //find users in db
-    
+        // console.log(req.session.user);
+        // console.log('errrroorrrie');
+
+        db.collection('user').find({ 
+            '_id': { 
+                $ne: mongo.ObjectID(req.session.user.id) //show only users Not Equal to logged in user id
+            }
+        }).toArray(done); //find users in db
+
         function done(err, user) {
             if (err) {
                 next(err);
@@ -30,6 +37,7 @@ var home = {
                     user_logged_in: req.session.user
                 });
             }
+            console.log(user.length);
         }
     }
 }

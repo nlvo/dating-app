@@ -1,56 +1,13 @@
-<div class='matches'>
-    <% for(var i = 0; i < user.length; i++) { %>
+<div class='matches'>    
         
-        <% if (user_logged_in.id != user[i]._id) { %>
-            <% if (user_logged_in.likes.length > 0 ) { %>
-                <% for(var i = 0; i < user_logged_in.likes.length; i++) { %>
-                    <article class='show active'>
-                        <form action='/account/<%= user[i]._id %>/like?_method=PUT' method='POST'>
-                            <fieldset>
-                                <div class='card <%- user_logged_in.likes[i] == user[i]._id ? 'card--superliked' : '' %>'>
-                                    <img src='/uploads/<%= user[i].avatar %>'>
-                                    <div class='card__description'>
-                                        <h2>
-                                            <%= user[i].name %>
-                                        </h2>
-                                        <p>
-                                            <%= user[i].description %>
-                                        </p>
-                                        <a href="/account/<%= user[i]._id %>/"></a>
-                                    </div>
-                                </div>
-                                <div class='controls'>
-                                    <label class='card__btn card__btn--undo card__btn--secundair' for='undo'>
-                                        <input type='radio' id='undo' name='like'>
-                                        <span>undo</span>
-                                        <img src='img/undo.svg' alt='undo icon'>
-                                    </label>
-                                    <label class='card__btn card__btn--pass' for='pass'>
-                                        <input type='radio' id='pass' name='like' value='0'>
-                                        <span>pass</span>
-                                        <img src='img/pass.svg' alt='close icon'>
-                                    </label>
-                                    <label class='card__btn card__btn--like' for='like'>
-                                        <input type='radio' id='like' name='like' value='1'>
-                                        <span>like</span>
-                                        <img src='img/like.svg' alt='heart like icon'>
-                                    </label>
-                                    <label class='card__btn card__btn--superlike card__btn--secundair' for='superlike'>
-                                        <input type='radio' id='superlike' name='like' value='1'>
-                                        <span>superlike</span>
-                                        <img src='img/superlike.svg' alt='crown superlike icon'>
-                                    </label>
-                                    <button>Submit</button>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </article>
-                <% } %>  
-            <% } else { %>  
-                <article class='show active'>
-                    <form action='/account/<%= user[i]._id %>/like?_method=PUT' method='POST'>
-                        <fieldset>
-                            <div class='card'>
+    <% for(var i = 0; i < user.length; i++) { %>
+
+        <article class='show active'>
+            <form action='/account/<%= user[i]._id %>/like?_method=PUT' method='POST'>
+                <fieldset>
+                    <% if(user_logged_in.likes.length > 0) { %>
+                        <% for(var e = 0; e < user_logged_in.likes.length; e++) { %>
+                            <div class='card <%- user_logged_in.likes[e] == user[i]._id ? 'card--superliked' : '' %>'>
                                 <img src='/uploads/<%= user[i].avatar %>'>
                                 <div class='card__description'>
                                     <h2>
@@ -62,92 +19,47 @@
                                     <a href="/account/<%= user[i]._id %>/"></a>
                                 </div>
                             </div>
-                            <div class='controls'>
-                                <label class='card__btn card__btn--undo card__btn--secundair' for='undo'>
-                                    <input type='radio' id='undo' name='like'>
-                                    <span>undo</span>
-                                    <img src='img/undo.svg' alt='undo icon'>
-                                </label>
-                                <label class='card__btn card__btn--pass' for='pass'>
-                                    <input type='radio' id='pass' name='like' value='0'>
-                                    <span>pass</span>
-                                    <img src='img/pass.svg' alt='close icon'>
-                                </label>
-                                <label class='card__btn card__btn--like' for='like'>
-                                    <input type='radio' id='like' name='like' value='1'>
-                                    <span>like</span>
-                                    <img src='img/like.svg' alt='heart like icon'>
-                                </label>
-                                <label class='card__btn card__btn--superlike card__btn--secundair' for='superlike'>
-                                    <input type='radio' id='superlike' name='like' value='1'>
-                                    <span>superlike</span>
-                                    <img src='img/superlike.svg' alt='crown superlike icon'>
-                                </label>
-                                <button>Submit</button>
+                        <% } %>
+                    <% } else { %>
+                        <div class='card'>
+                            <img src='/uploads/<%= user[i].avatar %>'>
+                            <div class='card__description'>
+                                <h2>
+                                    <%= user[i].name %>
+                                </h2>
+                                <p>
+                                    <%= user[i].description %>
+                                </p>
+                                <a href="/account/<%= user[i]._id %>/"></a>
                             </div>
-                        </fieldset>
-                    </form>
-                </article>
-            <% } %>
-        <% } %>
-
-        <!-- <% if (user_logged_in.likes.length > 0 ) { %>
-            <% for(var i = 0; i < user_logged_in.likes.length; i++) { %>
-                <% if (user_logged_in.id != user[i]._id) { %>
-                    <article class='show active <%- user_logged_in.likes[i] == user[i]._id ? 'superliked' : '' %>'>
-                        <form action='/account/<%= user[i]._id %>/like?_method=PUT' method='POST'>
-                            <fieldset>
-                                <div class='card'>
-                                    <img src='/uploads/<%= user[i].avatar %>'>
-                                    <div class='card__description'>
-                                        <h2>
-                                            <%= user[i].name %>
-                                        </h2>
-                                        <p>
-                                            <%= user[i].description %>
-                                        </p>
-                                        <a href="/account/<%= user[i]._id %>/"></a>
-                                    </div>
-                                </div>
-                                <div class='controls'>
-                                    <label class='card__btn card__btn--undo card__btn--secundair' for='undo'>
-                                        <input type='radio' id='undo' name='like'>
-                                        <span>undo</span>
-                                        <img src='img/undo.svg' alt='undo icon'>
-                                    </label>
-                                    <label class='card__btn card__btn--pass' for='pass'>
-                                        <input type='radio' id='pass' name='like' value='0'>
-                                        <span>pass</span>
-                                        <img src='img/pass.svg' alt='close icon'>
-                                    </label>
-                                    <label class='card__btn card__btn--like' for='like'>
-                                        <input type='radio' id='like' name='like' value='1'>
-                                        <span>like</span>
-                                        <img src='img/like.svg' alt='heart like icon'>
-                                    </label>
-                                    <label class='card__btn card__btn--superlike card__btn--secundair' for='superlike'>
-                                        <input type='radio' id='superlike' name='like' value='1'>
-                                        <span>superlike</span>
-                                        <img src='img/superlike.svg' alt='crown superlike icon'>
-                                    </label>
-                                    <button>Submit</button>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </article>
-                <% } %>
-            <% } %>
-        <% } %> -->
-
-        <!-- <% if (user_logged_in.likes.length > 0 ) { %>
-            <% for(var i = 0; i < user_logged_in.likes.length; i++) { %>
-                <% if (user_logged_in.id != user[i]._id) { %>
-                    <% if (user_logged_in.likes[i] != user[i]._id) { %>
-                        
+                        </div>
                     <% } %>
-                <% } %>
-            <% } %>
-        <% } %> -->
+                    <div class='controls'>
+                        <label class='card__btn card__btn--undo card__btn--secundair' for='undo'>
+                            <input type='radio' id='undo' name='like'>
+                            <span>undo</span>
+                            <img src='img/undo.svg' alt='undo icon'>
+                        </label>
+                        <label class='card__btn card__btn--pass' for='pass'>
+                            <input type='radio' id='pass' name='like' value='0'>
+                            <span>pass</span>
+                            <img src='img/pass.svg' alt='close icon'>
+                        </label>
+                        <label class='card__btn card__btn--like' for='like'>
+                            <input type='radio' id='like' name='like' value='1'>
+                            <span>like</span>
+                            <img src='img/like.svg' alt='heart like icon'>
+                        </label>
+                        <label class='card__btn card__btn--superlike card__btn--secundair' for='superlike'>
+                            <input type='radio' id='superlike' name='like' value='1'>
+                            <span>superlike</span>
+                            <img src='img/superlike.svg' alt='crown superlike icon'>
+                        </label>
+                        <button>Submit</button>
+                    </div>
+                </fieldset>
+            </form>
+        </article>
 
     <% } %>
 </div>

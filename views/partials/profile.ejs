@@ -5,23 +5,8 @@
         <article class='show active'>
             <form action='/account/<%= user[i]._id %>/like?_method=PUT' method='POST'>
                 <fieldset>
-                    <% if(user_logged_in.likes.length > 0) { %>
-                        <% for(var e = 0; e < user_logged_in.likes.length; e++) { %>
-                            <div class='card <%- user_logged_in.likes[e] == user[i]._id ? 'card--superliked' : '' %>'>
-                                <img src='/uploads/<%= user[i].avatar %>'>
-                                <div class='card__description'>
-                                    <h2>
-                                        <%= user[i].name %>
-                                    </h2>
-                                    <p>
-                                        <%= user[i].description %>
-                                    </p>
-                                    <a href="/account/<%= user[i]._id %>/"></a>
-                                </div>
-                            </div>
-                        <% } %>
-                    <% } else { %>
-                        <div class='card'>
+                    <% if(user_logged_in.superlikes.length > 0) { %>
+                        <div class='card <% for(var e = 0; e < user_logged_in.superlikes.length; e++) { %><%- user_logged_in.superlikes[e] == user[i]._id ? 'card--superliked' : '' %><% } %>'>
                             <img src='/uploads/<%= user[i].avatar %>'>
                             <div class='card__description'>
                                 <h2>

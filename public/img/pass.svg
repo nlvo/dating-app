@@ -1,5 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-  <text fill="#FFF" fill-rule="evenodd" font-family="Ionicons" font-size="35" font-weight="400" transform="translate(-17 -16)">
-    <tspan x="17" y="36"></tspan>
-  </text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>pass</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="12.3046875 11.3125 13.125 12.1328125 7.3828125 17.875 13.125 23.6171875 12.3046875 24.4375 6.5625 18.6953125 0.8203125 24.4375 0 23.6171875 5.7421875 17.875 0 12.1328125 0.8203125 11.3125 6.5625 17.0546875"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="pass" transform="translate(0.000000, -11.000000)" fill-rule="nonzero">
+            <g>
+                <use fill="#000000" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
 </svg>

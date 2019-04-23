@@ -1,4 +1,4 @@
-<div class='matches'>    
+<div class='row matches'>    
         
     <% for(var i = 0; i < user.length; i++) { %>
     
@@ -18,7 +18,7 @@
                                 <p>
                                     <%= user[i].description %>
                                 </p>
-                                <a href="/account/<%= user[i]._id %>/"></a>
+                                <a href='/account/<%= user[i]._id %>/'></a>
                             </div>
                         </div>
                     <% } else { %>
@@ -32,32 +32,35 @@
                                 <p>
                                     <%= user[i].description %>
                                 </p>
-                                <a href="/account/<%= user[i]._id %>/"></a>
+                                <a href='/account/<%= user[i]._id %>/'></a>
                             </div>
                         </div>
                     <% } %>
                     <div class='controls'>
+                        <input type='radio' id='undo' name='like'>
                         <label class='card__btn card__btn--undo card__btn--secundair' for='undo'>
-                            <input type='radio' id='undo' name='like'>
                             <span>undo</span>
                             <img src='img/undo.svg' alt='undo icon'>
                         </label>
+
+                        <input type='radio' id='pass' name='like'>
                         <label class='card__btn card__btn--pass' for='pass'>
-                            <input type='radio' id='pass' name='like' value='pass'>
                             <span>pass</span>
                             <img src='img/pass.svg' alt='close icon'>
                         </label>
-                        <label class='card__btn card__btn--like' for='like'>
-                            <input type='radio' id='like' name='like' value='like'>
+
+                        <input type='radio' id='like-<%=[i]%>' name='like' value='like'>
+                        <label class='card__btn card__btn--like' for='like-<%=[i]%>'>
                             <span>like</span>
                             <img src='img/like.svg' alt='heart like icon'>
                         </label>
-                        <label class='card__btn card__btn--superlike card__btn--secundair' for='superlike'>
-                            <input type='radio' id='superlike' name='like' value='superlike'>
+
+                        <input type='radio' id='superlike-<%=[i]%>' name='like' value='superlike'>
+                        <label class='card__btn card__btn--superlike card__btn--secundair' for='superlike-<%=[i]%>'>
                             <span>superlike</span>
                             <img src='img/superlike.svg' alt='crown superlike icon'>
                         </label>
-                        <button>Submit</button>
+                        <button>submit</button>
                     </div>
                 </fieldset>
             </form>

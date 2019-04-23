@@ -25,6 +25,12 @@ var home = {
         db.collection('user').find({ 
             '_id': { 
                 $ne: mongo.ObjectID(req.session.user.id) //show only users Not Equal to logged in user id
+            },
+            'likes': {
+                $ne: mongo.ObjectID(req.session.user.id) //show only users who aren't liked yet by logged in user id
+            },
+            'superlikes': {
+                $ne: mongo.ObjectID(req.session.user.id) //show only users who aren't superliked yet by logged in user id
             }
         }).toArray(done); //find users in db
 

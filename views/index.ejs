@@ -1,16 +1,26 @@
 <% include layout/head.ejs %>
 <% include layout/nav.ejs %>
 	
+<main>
 	<% if (user_logged_in) { %>
-		<section>
-			<h2>Find your soulmate</h2>
-			<% include partials/profile.ejs %>
-		</section>
+		<div class="container">
+			<section>
+				<h2>Find your soulmate</h2>
+				<% include partials/profile.ejs %>
+			</section>
+		</div>
 	<% } else { %>	
-		<header>
-			<img src="/img/logo.svg" alt="">
-			<p>Find your soulmate</p>
-		</header>
-	<% } %>
-	
+		<section class="about">
+			<header>
+				<img src="/img/logo.svg" alt="Rosella's logo">
+				<h2>Find your soulmate</h2>
+				<div class="btns">
+					<a class='btn btn--primary' href="/login">login</a>
+					<a class='btn btn--secondary' href="/signup">sign up</a>
+				</div>
+			</header>
+		</section>
+	<% } %>	
+</main>
+
 <% include layout/footer.ejs %>

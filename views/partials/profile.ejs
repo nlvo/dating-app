@@ -1,12 +1,29 @@
 <div class='matches'>    
         
     <% for(var i = 0; i < user.length; i++) { %>
-
+    
         <article class='show active'>
             <form action='/account/<%= user[i]._id %>/like?_method=PUT' method='POST'>
                 <fieldset>
-                    <% if(user_logged_in.superlikes.length > 0) { %>
-                        <div class='card <% for(var e = 0; e < user_logged_in.superlikes.length; e++) { %><%- user_logged_in.superlikes[e] == user[i]._id ? 'card--superliked' : '' %><% } %>'>
+                    <!-- check if a user has superliked anyone -->
+                    <% if(user[i].liked || user[i].superliked) { %>
+                        
+                        <!-- if a user has superlikeD == logged in user, show different styling -->
+                        <div class='card <% for(var e = 0; e < user[i].superliked.length; e++) { %><%- user[e].superliked == user_logged_in.id ? 'card--superliked' : '' %><% } %>'>
+                            <img src='/uploads/<%= user[i].avatar %>'>
+                            <div class='card__description'>
+                                <h2>
+                                    <%= user[i].name %>
+                                </h2>
+                                <p>
+                                    <%= user[i].description %>
+                                </p>
+                                <a href="/account/<%= user[i]._id %>/"></a>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <!-- if user doesn't have liked or superliked anyone -->
+                        <div class='card'>
                             <img src='/uploads/<%= user[i].avatar %>'>
                             <div class='card__description'>
                                 <h2>
@@ -45,6 +62,6 @@
                 </fieldset>
             </form>
         </article>
-
+        
     <% } %>
 </div>

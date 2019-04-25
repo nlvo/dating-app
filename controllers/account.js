@@ -135,7 +135,9 @@ var account = {
 			images: [],
 			fave_series: [],
 			likes: [],
-			superlikes: []
+			superlikes: [],
+			liked: [],
+			superliked: []
 		}, done);
 
 		// input[name="username"]
@@ -147,12 +149,14 @@ var account = {
 			if (err) {
 				next(err);
 			} else {
+				req.session.user = {
+					id: req.body._id,
+                    name: req.body.name // pass name value inside object to session.user
+                };
 				res.redirect('/account/' + user.insertedId);
 			}
+
 		}
-
-		console.log(req.file);
-
 	},
 	delete: function (req, res, next) {
 		var id = req.params.id,

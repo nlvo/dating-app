@@ -37,6 +37,18 @@ var account = {
 				'foreignField': '_id', 
 				'as': 'likes'
 			  }
+			},
+			{
+			  '$match': {
+				'_id': mongo.ObjectID(id)
+			  }
+			}, {
+			  '$lookup': {
+				'from': 'user', 
+				'localField': 'liked', 
+				'foreignField': '_id', 
+				'as': 'liked'
+			  }
 			}
 		  ]
 		).toArray(done);

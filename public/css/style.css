@@ -199,9 +199,21 @@ section article fieldset {
 
 section article .card {
     background-color: var(--concrete-100);
+    border-radius: 0.150em;
     position: relative;
     height: 30em;
     width: 100%;
+}
+
+section article .card.card--superliked {
+    border: 1px solid var(--gold-500);
+}
+
+section article .card.card--superliked:before {
+    content: url('/img/superliked.svg');
+    position: absolute;
+    right: 0.625em;
+    top: -1em;
 }
 
 section article .card:after {

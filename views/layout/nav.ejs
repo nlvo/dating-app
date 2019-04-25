@@ -3,11 +3,11 @@
         <ul>
             <li><a href='/'>home</a></li>
             <% if (user_logged_in) { %>
-                <li><p>Welcome back <a href='/account/<%= user_logged_in.id %>'><%= user_logged_in.name %></a>!</p></li>
+                <li><p>Hi, <a href='/account/<%= user_logged_in.id %>'><%= user_logged_in.name %></a>!</p></li>
                 <li><a href=/signout>sign out</a></li>
             <% } else { %>
                 <li><a href=/signin>sign in</a></li>
-                <li class="btn btn--primary"><a href=/signup>sign up</a></li>
+                <li><a class='btn btn--primary' href=/signup>sign up</a></li>
             <% } %>
         </ul>
     </nav>

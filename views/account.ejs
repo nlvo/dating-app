@@ -1,47 +1,114 @@
 <% include layout/head.ejs %>
 <% include layout/nav.ejs %>
-    <img src='/uploads/<%= user.avatar %>' alt=''>
-    <h2><%= user.name %></h2>
-    <p><%= user.description %></p>
 
-    <h3>My likes (<%= user.likes.length %>)</h3>
-    <% if (user.likes.length > 0) { %>
-        <ul>
-            <% for(i = 0; i < user.likes.length; i++){ %>
-                <li><a href='/account/<%= user.likes[i]._id %>'><%= user.likes[i].name %></a></li>
-            <% }%>
-        </ul>
-    <% } %>
-    
-    <h3>Liked  (<%= user.liked.length %>)</h3>
-    <% if (user.liked.length > 0) { %>
-        <ul>
-            <% for(i = 0; i < user.liked.length; i++){ %>
-                <li><a href='/account/<%= user.liked[i]._id %>'><%= user.liked[i].name %></a></li>
-            <% }%>
-        </ul>
-    <% } %>
-    
-    <h3>My superlikes (<%= user.superlikes.length %>)</h3>
-    <% if (user.superlikes.length > 0) { %>
-        <ul>
-            <% for(i = 0; i < user.superlikes.length; i++){ %>
-                <li><a href='/account/<%= user.superlikes[i]._id %>'><%= user.superlikes[i].name %></a></li>
-            <% }%>
-        </ul>
-    <% } %>
-    
-    <h3>Superliked  (<%= user.superliked.length %>)</h3>
-    <% if (user.superliked.length > 0) { %>
-        <ul>
-            <% for(i = 0; i < user.superliked.length; i++){ %>
-                <li><a href='/account/<%= user.superliked[i]._id %>'><%= user.superliked[i].name %></a></li>
-            <% }%>
-        </ul>
-    <% } %>
+<section class='account'>
 
-    <form action='/account/<%= user._id %>/delete?_method=DELETE' method='POST'>
-        <button>delete account</button>
-    </form>
+    <header>
+        <img class='cover' src='/uploads/<%= user.avatar %>' alt=''>
+
+        <div class='container'>
+            <div class="header__info">
+                <img class='avatar' src='/uploads/<%= user.avatar %>' alt=''>
+                <h2><%= user.name %></h2>
+                <p><%= user.description %></p>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class='container'>
+            
+            <section>
+                <h3>Liked (<%= user.liked.length %>)</h3>
+                <div class='row'>
+                    <% if (user.liked.length > 0) { %>
+                        <% for(i = 0; i < user.liked.length; i++){ %>
+                        <article class='card'>
+                            <img src='/uploads/<%= user.liked[i].avatar %>' alt=''>
+                            <div class='card__description'>
+                                <a href='/account/<%= user.liked[i]._id %>'>
+                                    <h2>
+                                        <%= user.liked[i].name %>
+                                    </h2>
+                                    <p>
+                                        <%= user.liked[i].description %>
+                                    </p>
+                                </a>
+                            </div>
+                        </article>
+                        <% }%>
+                    <% } %>
+                </div>
+            </section>
+            <section>
+                <h3>Superliked (<%= user.superliked.length %>)</h3>
+                <div class='row'>
+                    <% if (user.superliked.length > 0) { %>
+
+                        <% for(i = 0; i < user.superliked.length; i++){ %>
+                            <article class='card'>
+                                <img src='/uploads/<%= user.superliked[i].avatar %>' alt=''>
+                                <div class='card__description'>
+                                    <a href='/account/<%= user.superliked[i]._id %>'>
+                                        <h2>
+                                            <%= user.superliked[i].name %> </h2>
+                                        <p>
+                                            <%= user.superliked[i].description %>
+                                        </p>
+                                    </a>
+                                </div>
+                            </article>
+                        <% }%>
+                    <% } %>
+                </div>
+            </section>
+
+            <section>
+                <h3>Likes (<%= user.likes.length %>)</h3>
+                <div class='row'>
+                    <% if (user.likes.length > 0) { %>
+                        <% for(i = 0; i < user.likes.length; i++){ %>
+                        <article class='card'>
+                            <img src='/uploads/<%= user.likes[i].avatar %>' alt=''>
+                            <div class='card__description'>
+                                <a href='/account/<%= user.likes[i]._id %>'>
+                                    <h2>
+                                        <%= user.likes[i].name %>
+                                    </h2>
+                                    <p>
+                                        <%= user.likes[i].description %>
+                                    </p>
+                                </a>
+                            </div>
+                        </article>
+                        <% }%>
+                    <% } %>
+                </div>
+            </section>
+            <section>
+                <h3>Superlikes (<%= user.superlikes.length %>)</h3>
+                <div class='row'>
+                    <% if (user.superlikes.length > 0) { %>
+
+                        <% for(i = 0; i < user.superlikes.length; i++){ %>
+                            <article class='card'>
+                                <img src='/uploads/<%= user.superlikes[i].avatar %>' alt=''>
+                                <div class='card__description'>
+                                    <a href='/account/<%= user.superlikes[i]._id %>'>
+                                        <h2>
+                                            <%= user.superlikes[i].name %> </h2>
+                                        <p>
+                                            <%= user.superlikes[i].description %>
+                                        </p>
+                                    </a>
+                                </div>
+                            </article>
+                        <% }%>
+                    <% } %>
+                </div>
+            </section>
+        </div>
+    </article>
+</section>
 
 <% include layout/footer.ejs %>

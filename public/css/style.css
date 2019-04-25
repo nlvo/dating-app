@@ -68,6 +68,14 @@ p {
 	color: var(--concrete-500);
 }
 
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
 img {
 	width: 100%;
 }
@@ -76,23 +84,31 @@ img {
         Navigation
  --------------------- */
 
-nav {
+nav ul{
 	display: flex;
     justify-content: flex-end;
 }
 
 nav ul li {
-	display: inline-flex;
+	/* display: inline-flex; */
 	list-style-type: none;
     padding: 0.75em;
 }
 
 nav ul li:first-child {
-	margin-left: auto;
+    margin-right:auto;
 }
 
 nav ul li a {
-	text-decoration: none;
+    text-decoration: none;
+}
+
+nav ul li p a {
+    color: var(--cinderella-600) !important;
+}
+
+nav ul li p {
+    margin: auto;
 }
 
 /* ---------------------
@@ -102,8 +118,8 @@ nav ul li a {
 .btn {
     border: none;
     border-radius: 2em;
-    color: #fff;
-    padding: .5em 4em;
+    color: #fff !important;
+    padding: .6em 3.5em;
 }
 .btn.btn--primary {
     background-image: linear-gradient(-134deg, #0C8FA6 0%, #5FDFF6 70%, #68E8FF 100%);
@@ -174,8 +190,43 @@ section.signup p {
     color: var(--concrete-300);
 }
 
+section.signup p a {
+    color: var(--cinderella-500);
+}
+
 section.signup button {
     font-size: 0.9em;
+}
+
+/* ---------------------
+        Account
+ --------------------- */
+
+section.account header {
+    position: relative;
+}
+
+section.account header .cover {
+    object-fit: cover;
+    height: 25em;
+    width: 100%;
+}
+
+section.account header .container {
+    margin-top: -4em;
+}
+
+section.account header .header__info {
+    display: flex;
+}
+
+section.account header .header__info .avatar {
+    border-radius: 8em;
+    border: 0.4em solid var(--cinderella-100);
+    object-fit: cover;
+    height: 8em;
+    left: 10em;
+    width: 8em;
 }
 
 body.js-enabled section {

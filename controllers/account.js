@@ -32,22 +32,11 @@ var account = {
 		}, {
 			'$lookup': {
 				'from': 'user',
-				'localField': 'likes',
-				'foreignField': '_id',
-				'as': 'likes'
-			},
-			'$lookup': {
-				'from': 'user',
 				'localField': 'liked',
 				'foreignField': '_id',
 				'as': 'liked'
-			},
-			'$lookup': {
-				'from': 'user',
-				'localField': 'superlikes',
-				'foreignField': '_id',
-				'as': 'superlikes'
-			},
+			}
+		}, {
 			'$lookup': {
 				'from': 'user',
 				'localField': 'superliked',
@@ -67,7 +56,6 @@ var account = {
 					user_logged_in: req.session.user
 				});
 			}
-			// console.log(user[0].likes[0].name)
 		}
 
 	},
@@ -151,8 +139,8 @@ var account = {
 			} else {
 				req.session.user = {
 					id: req.body._id,
-                    name: req.body.name // pass name value inside object to session.user
-                };
+					name: req.body.name // pass name value inside object to session.user
+				};
 				res.redirect('/account/' + user.insertedId);
 			}
 
@@ -172,6 +160,86 @@ var account = {
 				next(err);
 			} else {
 				res.redirect('/');
+			}
+		}
+	},
+	likes: function (req, res) {
+		var id = req.params.id; //checks params /profile/:id, pass params id
+
+		//find the correct profile by id
+		// db.collection('user').findOne({
+		// 	_id: mongo.ObjectID(id)
+		// }, done);
+		db.collection('user').aggregate([{
+			'$match': {
+				'_id': mongo.ObjectID(id)
+			}
+		}, {
+			'$lookup': {
+				'from': 'user',
+				'localField': 'likes',
+				'foreignField': '_id',
+				'as': 'likes'
+			}
+		}]).toArray(done);
+
+		// https://stackoverflow.com/questions/50250136/mongodb-aggregate-with-match-lookup-and-project
+		// console.log(req.params);
+		function done(err, user, next) {
+			if (err) {
+				next(err);
+			} else {
+				res.render('account.ejs', {
+					user: user[0],
+					user_logged_in: req.session.user
+				});
+			}
+		}
+	},
+	superlikes: function (req, res) {
+		var id = req.params.id; //checks params /profile/:id, pass params id
+
+		//find the correct profile by id
+		// db.collection('user').findOne({
+		// 	_id: mongo.ObjectID(id)
+		// }, done);
+		db.collection('user').aggregate([{
+			'$match': {
+				'_id': mongo.ObjectID(id)
+			}
+		}, {
+			'$lookup': {
+				'from': 'user',
+				'localField': 'superlikes',
+				'foreignField': '_id',
+				'as': 'superlikes'
+			}
+		},{
+			'$lookup': {
+				'from': 'user',
+				'localField': 'likes',
+				'foreignField': '_id',
+				'as': 'likes'
+			}
+		}, {
+			'$lookup': {
+				'from': 'user',
+				'localField': 'superlikes',
+				'foreignField': '_id',
+				'as': 'superlikes'
+			}
+		}]).toArray(done);
+
+		// https://stackoverflow.com/questions/50250136/mongodb-aggregate-with-match-lookup-and-project
+		// console.log(req.params);
+		function done(err, user, next) {
+			if (err) {
+				next(err);
+			} else {
+				res.render('account.ejs', {
+					user: user[0],
+					user_logged_in: req.session.user
+				});
 			}
 		}
 	}

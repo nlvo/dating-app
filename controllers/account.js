@@ -140,7 +140,7 @@ var account = {
 			superliked: []
 		}, done);
 
-		// input[name="username"]
+		// input[name='username']
 		// req.body.username ^
 		// form ...
 		// req.body ^

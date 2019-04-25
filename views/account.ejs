@@ -1,6 +1,6 @@
 <% include layout/head.ejs %>
 <% include layout/nav.ejs %>
-    <img src="/uploads/<%= user.avatar %>" alt="">
+    <img src='/uploads/<%= user.avatar %>' alt=''>
     <h2><%= user.name %></h2>
     <p><%= user.description %></p>
 
@@ -8,7 +8,7 @@
     <% if (user.likes.length > 0) { %>
         <ul>
             <% for(i = 0; i < user.likes.length; i++){ %>
-                <li><a href="/account/<%= user.likes[i]._id %>"><%= user.likes[i].name %></a></li>
+                <li><a href='/account/<%= user.likes[i]._id %>'><%= user.likes[i].name %></a></li>
             <% }%>
         </ul>
     <% } %>
@@ -17,7 +17,7 @@
     <% if (user.liked.length > 0) { %>
         <ul>
             <% for(i = 0; i < user.liked.length; i++){ %>
-                <li><a href="/account/<%= user.liked[i]._id %>"><%= user.liked[i].name %></a></li>
+                <li><a href='/account/<%= user.liked[i]._id %>'><%= user.liked[i].name %></a></li>
             <% }%>
         </ul>
     <% } %>
@@ -26,7 +26,7 @@
     <% if (user.superlikes.length > 0) { %>
         <ul>
             <% for(i = 0; i < user.superlikes.length; i++){ %>
-                <li><a href="/account/<%= user.superlikes[i]._id %>"><%= user.superlikes[i].name %></a></li>
+                <li><a href='/account/<%= user.superlikes[i]._id %>'><%= user.superlikes[i].name %></a></li>
             <% }%>
         </ul>
     <% } %>
@@ -35,12 +35,12 @@
     <% if (user.superliked.length > 0) { %>
         <ul>
             <% for(i = 0; i < user.superliked.length; i++){ %>
-                <li><a href="/account/<%= user.superliked[i]._id %>"><%= user.superliked[i].name %></a></li>
+                <li><a href='/account/<%= user.superliked[i]._id %>'><%= user.superliked[i].name %></a></li>
             <% }%>
         </ul>
     <% } %>
 
-    <form action="/account/<%= user._id %>/delete?_method=DELETE" method="POST">
+    <form action='/account/<%= user._id %>/delete?_method=DELETE' method='POST'>
         <button>delete account</button>
     </form>
 

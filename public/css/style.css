@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: 1.625em;
+    font-size: 2em;
 }
 
 h2 {
@@ -72,6 +72,10 @@ img {
 	width: 100%;
 }
 
+/* ---------------------
+        Navigation
+ --------------------- */
+
 nav {
 	display: flex;
     justify-content: flex-end;
@@ -89,6 +93,24 @@ nav ul li:first-child {
 
 nav ul li a {
 	text-decoration: none;
+}
+
+/* ---------------------
+        Buttons
+ --------------------- */
+
+.btn {
+    border: none;
+    border-radius: 2em;
+    color: #fff;
+    padding: .5em 4em;
+}
+.btn.btn--primary {
+    background-image: linear-gradient(-134deg, #0C8FA6 0%, #5FDFF6 70%, #68E8FF 100%);
+}
+
+.btn.btn--secondary {
+    border: 1px solid #fff;
 }
 
 section.about {
@@ -115,9 +137,6 @@ section.about .btns {
 }
 
 section.about .btns .btn {
-    border-radius: 2em;
-    color: #fff;
-    padding: .5em 4em;
     text-decoration: none;
 }
 
@@ -126,8 +145,37 @@ section.about .btns .btn.btn--primary {
     margin-right: .8em;
 }
 
-section.about .btns .btn.btn--secondary {
-    border: 1px solid #fff;
+/* ---------------------
+        Signup
+ --------------------- */
+
+section.signup {
+    display: flex;
+    justify-content: center;
+}
+
+section.signup article {
+    width: 50%;
+}
+
+section.signup article input,
+section.signup article textarea {
+    border-radius: 0.188em;
+    border: 1px solid var(--concrete-200);
+    display: flex;
+    font-size: 1em;
+    padding: 0.625em;
+    margin: 0.625em 0;
+    width: 100%;
+}
+
+section.signup p {
+    font-size: 0.8em;
+    color: var(--concrete-300);
+}
+
+section.signup button {
+    font-size: 0.9em;
 }
 
 body.js-enabled section {

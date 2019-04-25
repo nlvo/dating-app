@@ -1,6 +1,6 @@
 var signup = {
 	show: function (req, res) {
-		res.render('register.ejs');
+		res.render('signup.ejs');
 	}
 }
 

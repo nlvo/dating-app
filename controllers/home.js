@@ -19,7 +19,7 @@ mongo.MongoClient.connect(url, {
 
 var home = {
 	show: function (req, res, next) {
-        // check if request session user exist
+        // check if request session user exista
         var sessionId = req.session.user ? req.session.user.id : null;
         db.collection('user').find({ 
             '_id': { 

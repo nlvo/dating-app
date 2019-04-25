@@ -17,7 +17,7 @@ mongo.MongoClient.connect(url, {
     }
 });
 
-var login = {
+var signin = {
     validation: function (req, res, next) {
         var name = req.body.name,
             password = req.body.password;
@@ -45,9 +45,9 @@ var login = {
         }
     },
     show: function (req, res) {
-        res.render('login.ejs');
+        res.render('signin.ejs');
     }
 }
 // https://stackoverflow.com/questions/33589571/module-exports-that-include-all-functions-in-a-single-line
 
-module.exports = login;
+module.exports = signin;

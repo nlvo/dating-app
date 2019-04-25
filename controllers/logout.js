@@ -1,4 +1,4 @@
-var logout = {
+var signout = {
 	show: function (req, res, next) {
 		req.session.destroy(function (err) { //destroy the session
 			if (err) {
@@ -10,4 +10,4 @@ var logout = {
 	}
 }
 
-module.exports = logout;
+module.exports = signout;

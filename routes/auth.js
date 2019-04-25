@@ -18,12 +18,12 @@ var // form
 	});
 
 var account = require('../controllers/account');
-var login = require('../controllers/login');
+var signin = require('../controllers/signin');
 
 app
     // post requests
     .post('/account', upload.single('avatar'), account.create)
-	.post('/login', login.validation)
+	.post('/signin', signin.validation)
 	
 	// put/update
 	.put('/account/:id/like', account.like)

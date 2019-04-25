@@ -1,0 +1,25 @@
+<% include layout/head.ejs %>
+
+<div class='container'>
+    <section class='signup'>
+        <article>
+            <h1>Sign in to Rosella</h1>
+            <form action='/signin' method='POST'>
+                <div>
+                    <label for='name'>Name</label>
+                    <input id='name' type='text' name='name'>
+                </div>
+                <div>
+                    <label for='password'>Password</label>
+                    <input id='password' type='text' name='password'>
+                </div>
+
+                <button class='btn btn--primary'>Sign in</button>
+            </form>
+        </article>
+        <article>
+            <p>New to Rosella? <a href="/signup">Create an account</a>.</p>
+        </article>
+    </section>
+</div>
+<% include layout/footer.ejs %>

@@ -2,8 +2,8 @@ var express = require('express');
 var	app = express();
 
 var account = require('../controllers/account');
-var login = require('../controllers/login');
-var logout = require('../controllers/logout');
+var signin = require('../controllers/signin');
+var signout = require('../controllers/signout');
 var signup = require('../controllers/signup');
 var home = require('../controllers/home');
 
@@ -14,11 +14,11 @@ app
 
     // .get('/account/:id/likes', likey)
     
-    .get('/login', login.show)
+    .get('/signin', signin.show)
     .get('/account/:id', account.show)
     .get('/signup', signup.show)
 
-    .get('/logout', logout.show)
+    .get('/signout', signout.show)
 
 module.exports = app;
 

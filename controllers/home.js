@@ -19,31 +19,32 @@ mongo.MongoClient.connect(url, {
 
 var home = {
 	show: function (req, res, next) {
-        // console.log(req.session.user);
-        // console.log('errrroorrrie');
-
+        // check if request session user exist
+        var sessionId = req.session.user ? req.session.user.id : null;
         db.collection('user').find({ 
             '_id': { 
-                $ne: mongo.ObjectID(req.session.user.id) //show only users Not Equal to logged in user id
+                $ne: mongo.ObjectID(sessionId) //show only users Not Equal to logged in user id
             },
             'likes': {
-                $ne: mongo.ObjectID(req.session.user.id) //show only users who aren't liked yet by logged in user id
+                $ne: mongo.ObjectID(sessionId) //show only users who aren't liked yet by logged in user id
             },
             'superlikes': {
-                $ne: mongo.ObjectID(req.session.user.id) //show only users who aren't superliked yet by logged in user id
+                $ne: mongo.ObjectID(sessionId) //show only users who aren't superliked yet by logged in user id
             }
         }).toArray(done); //find users in db
 
         function done(err, user) {
             if (err) {
                 next(err);
-            } else {
+            } 
+            if (user) {
                 res.render('index.ejs', {
                     user: user,
                     user_logged_in: req.session.user
                 });
+            } else {
+                res.send('buh')
             }
-            console.log(user.length);
         }
     }
 }

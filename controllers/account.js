@@ -25,34 +25,37 @@ var account = {
 		// db.collection('user').findOne({
 		// 	_id: mongo.ObjectID(id)
 		// }, done);
-		db.collection('user').aggregate([
-			{
-			  '$match': {
+		db.collection('user').aggregate([{
+			'$match': {
 				'_id': mongo.ObjectID(id)
-			  }
-			}, {
-			  '$lookup': {
-				'from': 'user', 
-				'localField': 'likes', 
-				'foreignField': '_id', 
-				'as': 'likes'
-			  }
-			},
-			{
-			  '$match': {
-				'_id': mongo.ObjectID(id)
-			  }
-			}, {
-			  '$lookup': {
-				'from': 'user', 
-				'localField': 'liked', 
-				'foreignField': '_id', 
-				'as': 'liked'
-			  }
 			}
-		  ]
-		).toArray(done);
-		
+		}, {
+			'$lookup': {
+				'from': 'user',
+				'localField': 'likes',
+				'foreignField': '_id',
+				'as': 'likes'
+			},
+			'$lookup': {
+				'from': 'user',
+				'localField': 'liked',
+				'foreignField': '_id',
+				'as': 'liked'
+			},
+			'$lookup': {
+				'from': 'user',
+				'localField': 'superlikes',
+				'foreignField': '_id',
+				'as': 'superlikes'
+			},
+			'$lookup': {
+				'from': 'user',
+				'localField': 'superliked',
+				'foreignField': '_id',
+				'as': 'superliked'
+			}
+		}]).toArray(done);
+
 		// https://stackoverflow.com/questions/50250136/mongodb-aggregate-with-match-lookup-and-project
 		// console.log(req.params);
 		function done(err, user, next) {
@@ -68,10 +71,10 @@ var account = {
 		}
 
 	},
-	like: function(req, res, next) {
+	like: function (req, res, next) {
 		var id = req.params.id;
 
-		if (req.body.like == 'like'){
+		if (req.body.like == 'like') {
 			// receiver | like
 			db.collection('user').updateOne({
 				_id: mongo.ObjectID(id),
@@ -80,7 +83,7 @@ var account = {
 					likes: mongo.ObjectID(req.session.user.id) //gives the user.id of the liker
 				},
 			});
-			
+
 			// giver | liked
 			db.collection('user').updateOne({
 				_id: mongo.ObjectID(req.session.user.id),
@@ -89,8 +92,8 @@ var account = {
 					liked: mongo.ObjectID(id) //save id of the user, who received a like
 				},
 			}, done);
-			
-		} else if (req.body.like == 'superlike'){
+
+		} else if (req.body.like == 'superlike') {
 			db.collection('user').updateOne({
 				_id: mongo.ObjectID(id),
 			}, {
@@ -98,7 +101,7 @@ var account = {
 					superlikes: mongo.ObjectID(req.session.user.id) //gives the user.id of the liker
 				},
 			});
-			
+
 			db.collection('user').updateOne({
 				_id: mongo.ObjectID(req.session.user.id),
 			}, {

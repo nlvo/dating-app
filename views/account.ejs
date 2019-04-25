@@ -21,6 +21,24 @@
             <% }%>
         </ul>
     <% } %>
+    
+    <h3>My superlikes (<%= user.superlikes.length %>)</h3>
+    <% if (user.superlikes.length > 0) { %>
+        <ul>
+            <% for(i = 0; i < user.superlikes.length; i++){ %>
+                <li><a href="/account/<%= user.superlikes[i]._id %>"><%= user.superlikes[i].name %></a></li>
+            <% }%>
+        </ul>
+    <% } %>
+    
+    <h3>Superliked  (<%= user.superliked.length %>)</h3>
+    <% if (user.superliked.length > 0) { %>
+        <ul>
+            <% for(i = 0; i < user.superliked.length; i++){ %>
+                <li><a href="/account/<%= user.superliked[i]._id %>"><%= user.superliked[i].name %></a></li>
+            <% }%>
+        </ul>
+    <% } %>
 
     <form action="/account/<%= user._id %>/delete?_method=DELETE" method="POST">
         <button>delete account</button>

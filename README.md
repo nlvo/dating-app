@@ -7,6 +7,14 @@ Rosella is a dating application where users can find their other half. They will
 One of the features which I’ll be working on is:
 > When I find someone with the same interesses as me I want to be able to reach out to them so I can let them know I’m interested
 
+Features
+* like
+* superlike
+* list
+   * your likes/superlikes
+   * you've liked/superliked
+* sign in/up
+
 ![rosella-app-v1](https://user-images.githubusercontent.com/8554238/55115375-9f7c4d80-50e4-11e9-94f3-4b69ac6f3cfa.jpg)
 
 ## Installation
@@ -20,8 +28,8 @@ One of the features which I’ll be working on is:
 ![database](https://user-images.githubusercontent.com/8554238/56810265-22a0d880-6836-11e9-8fff-8ea1459b0322.png)
 
 4. Create an .env file with
-    DB_NAME=yourDatabaseName
-    DB_URL=yourDatabaseUrl
+  * DB_NAME=yourDatabaseName
+  * DB_URL=yourDatabaseUrl
 
 5. To run the application
  `$ npm run start`

@@ -9,15 +9,21 @@
         <div class='container'>
             <div class="header__info">
                 <img class='avatar' src='/uploads/<%= user.avatar %>' alt=''>
-                <h2><%= user.name %></h2>
-                <p><%= user.description %></p>
+                <% if (user._id == user_logged_in.id) { %>
+                    <form action='/account/<%= user._id %>/delete?_method=DELETE' method='POST'>
+                        <button class='btn btn--secondary'>delete account</button>
+                    </form>
+                <% } %>
             </div>
         </div>
     </header>
 
     <article>
         <div class='container'>
-            
+            <section>
+                <h1><%= user.name %></h1>
+                <p><%= user.description %></p>
+            </section>
             <section>
                 <h3>Liked (<%= user.liked.length %>)</h3>
                 <div class='row'>

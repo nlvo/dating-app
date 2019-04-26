@@ -43,6 +43,20 @@ var account = {
 				'foreignField': '_id',
 				'as': 'superliked'
 			}
+		},{
+			'$lookup': {
+				'from': 'user',
+				'localField': 'likes',
+				'foreignField': '_id',
+				'as': 'likes'
+			}
+		}, {
+			'$lookup': {
+				'from': 'user',
+				'localField': 'superlikes',
+				'foreignField': '_id',
+				'as': 'superlikes'
+			}
 		}]).toArray(done);
 
 		// https://stackoverflow.com/questions/50250136/mongodb-aggregate-with-match-lookup-and-project
@@ -107,6 +121,7 @@ var account = {
 			}
 		}
 	},
+
 	// https://stackoverflow.com/questions/34967482/lookup-on-objectids-in-an-array
 	// form to create a profile
 	create: function (req, res, next) {
@@ -147,10 +162,10 @@ var account = {
 		}
 	},
 	delete: function (req, res, next) {
-		var id = req.params.id,
-			password = req.body.password;
-
+		var id = req.params.id;
+			console.log(id);
 		// Check if user exist or not
+		
 		db.collection('user').findOneAndDelete({
 			_id: mongo.ObjectID(id)
 		}, done);

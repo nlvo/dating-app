@@ -10,9 +10,6 @@ var home = require('../controllers/home');
 app
     // get request
 	.get('/', home.show)
-	// .get('/', likey)
-
-    // .get('/account/:id/likes', likey)
     
     .get('/signin', signin.show)
     .get('/account/:id', account.show)

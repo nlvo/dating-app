@@ -126,6 +126,7 @@ nav ul li p {
 }
 
 .btn.btn--secondary {
+    background-color: transparent;
     border: 1px solid #fff;
 }
 
@@ -213,6 +214,7 @@ section.account header .cover {
 }
 
 section.account header .container {
+    position: relative;
     margin-top: -4em;
 }
 
@@ -220,13 +222,24 @@ section.account header .header__info {
     display: flex;
 }
 
+section.account header .header__info h1 {
+    color: #fff;
+    margin-left: 0.8em;
+    margin-bottom: 1em;
+}
+
 section.account header .header__info .avatar {
     border-radius: 8em;
-    border: 0.4em solid var(--cinderella-100);
+    border: 0.4em solid #fff;
     object-fit: cover;
     height: 8em;
     left: 10em;
     width: 8em;
+}
+
+section.account header .header__info .btn {
+    position: absolute;
+    right: 0;
 }
 
 body.js-enabled section {

@@ -27,5 +27,6 @@ app
 	
 	// put/update
 	.put('/account/:id/like', account.like)
+	.delete('/account/:id/delete', account.delete)
 
 module.exports = app;
